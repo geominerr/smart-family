@@ -1,0 +1,72 @@
+<div class="wrapper">
+  <div class="signin-wrapper">
+    <h2 class="signin-title"><b>SMART</b>family.io</h2>
+    <form class="signin-form" [formGroup]="signinForm">
+      <mat-form-field
+        class="signin-form__field"
+        appearance="outline"
+        floatLabel="always"
+        hideRequiredMarker
+      >
+        <mat-label class="mat-label">Email</mat-label>
+        <input
+          matInput
+          type="email"
+          placeholder="example@example.com"
+          formControlName="email"
+        />
+        <mat-error>{{ getErrorMessage('email') }}</mat-error>
+      </mat-form-field>
+
+      <a class="link link--restore-password" routerLink="/password-recovery"
+        >Forgot Password ?</a
+      >
+
+      <mat-form-field
+        class="signin-form__field"
+        appearance="outline"
+        floatLabel="always"
+        hideRequiredMarker
+      >
+        <mat-label class="mat-label">Password</mat-label>
+        <input
+          matInput
+          type="password"
+          placeholder="password"
+          formControlName="password"
+        />
+        <mat-error>{{ getErrorMessage('password') }}</mat-error>
+      </mat-form-field>
+
+      <mat-checkbox
+        class="signin-form__remember-checkbox"
+        color="primary"
+        formControlName="remember"
+      >
+        Keep me signed in
+      </mat-checkbox>
+
+      <button
+        mat-flat-button
+        class="signin-form__submit-button"
+        color="primary"
+        (click)="submitForm()"
+        [disabled]="signinForm.invalid && signinForm.touched"
+      >
+        Login
+      </button>
+    </form>
+
+    <div class="divider">or sign in with</div>
+
+    <div class="google-auth">
+      <!-- TO DO  add correct link -->
+      <a mat-button class="google-auth__button" href="https://google.com">
+        <mat-icon class="mat-icon" svgIcon="google-icon"></mat-icon>
+        Continue with Google
+      </a>
+    </div>
+
+    <a class="link" routerLink="/signup">Create an account</a>
+  </div>
+</div>
