@@ -49,7 +49,7 @@ export class SignupComponent {
 
   termsAccepted: boolean = false;
 
-  submitted: boolean = false;
+  attempedSubmit: boolean = false;
 
   hidden: boolean = true;
 
@@ -77,7 +77,7 @@ export class SignupComponent {
   }
 
   getTermsErrorMessage(): string | null {
-    if (this.submitted && !this.termsAccepted) {
+    if (this.attempedSubmit && !this.termsAccepted) {
       return 'Please read and accept terms of service';
     }
 
@@ -85,8 +85,8 @@ export class SignupComponent {
   }
 
   submitForm(): void {
-    if (!this.submitted) {
-      this.submitted = true;
+    if (!this.attempedSubmit) {
+      this.attempedSubmit = true;
     }
 
     const { signupForm } = this;

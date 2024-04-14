@@ -35,6 +35,8 @@ import { ILoginDto } from '../../models/auth.model';
 export class SigninComponent {
   signinForm: FormGroup;
 
+  attempedSubmit: boolean = false;
+
   constructor(
     private readonly authService: AuthService,
     private readonly fb: FormBuilder
@@ -57,11 +59,14 @@ export class SigninComponent {
   }
 
   submitForm(): void {
-    if (!this.signinForm.invalid) {
-      const user: ILoginDto = this.signinForm.getRawValue();
-      this.authService.login(user);
+    if (this.signinForm.invalid) {
+      this.attempedSubmit = true;
+      this.signinForm.markAllAsTouched();
+
+      return;
     }
 
-    this.signinForm.markAllAsTouched();
+    const user: ILoginDto = this.signinForm.getRawValue();
+    this.authService.login(user);
   }
 }

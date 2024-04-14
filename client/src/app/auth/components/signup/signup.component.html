@@ -88,7 +88,7 @@
         class="signup-form__submit-button"
         color="primary"
         (click)="submitForm()"
-        [disabled]="submitted && (signupForm.invalid || !termsAccepted)"
+        [disabled]="attempedSubmit && (signupForm.invalid || !termsAccepted)"
       >
         Sign up
       </button>

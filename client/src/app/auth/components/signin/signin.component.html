@@ -51,7 +51,7 @@
         class="signin-form__submit-button"
         color="primary"
         (click)="submitForm()"
-        [disabled]="signinForm.invalid && signinForm.touched"
+        [disabled]="attempedSubmit && signinForm.invalid"
       >
         Login
       </button>

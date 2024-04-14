@@ -28,6 +28,8 @@ import { IResetDto } from '../../models/auth.model';
 export class PasswordRecoveryComponent {
   passwordResetForm: FormGroup;
 
+  attempedSubmit: boolean = false;
+
   constructor(
     private readonly authService: AuthService,
     private readonly fb: FormBuilder
@@ -48,12 +50,14 @@ export class PasswordRecoveryComponent {
   }
 
   submitForm(): void {
-    if (!this.passwordResetForm.invalid) {
-      const email: IResetDto = this.passwordResetForm.getRawValue();
+    if (this.passwordResetForm.invalid) {
+      this.attempedSubmit = true;
+      this.passwordResetForm.markAllAsTouched();
 
-      this.authService.resetPassword(email);
+      return;
     }
 
-    this.passwordResetForm.markAllAsTouched();
+    const email: IResetDto = this.passwordResetForm.getRawValue();
+    this.authService.resetPassword(email);
   }
 }
