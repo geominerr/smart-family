@@ -8,7 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
-import { SvgIconsModule } from '../../../shared/material/svg-icons.module';
+import { SvgIconsModule } from '../../../shared/modules/svg-icons.module';
 import { AuthService } from '../../services/authorization/auth.service';
 import { emailValidator } from '../../validators/email.validator';
 import { passwordValidator } from '../../validators/password.validator';

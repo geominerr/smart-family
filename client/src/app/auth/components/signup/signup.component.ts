@@ -16,7 +16,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
 import { AuthService } from '../../services/authorization/auth.service';
 import { TermsPopupComponent } from '../terms-popup/terms-popup.component';
-import { SvgIconsModule } from '../../../shared/material/svg-icons.module';
+import { SvgIconsModule } from '../../../shared/modules/svg-icons.module';
 import { emailValidator } from '../../validators/email.validator';
 import { passwordValidator } from '../../validators/password.validator';
 import { usernameValidator } from '../../validators/username.validator';
