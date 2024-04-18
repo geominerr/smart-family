@@ -2,10 +2,19 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  OnDestroy,
 } from '@angular/core';
-import { NgIf } from '@angular/common';
+import { AsyncPipe, NgClass, NgIf } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { RouterLink, RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import {
+  BehaviorSubject,
+  Subscription,
+  catchError,
+  finalize,
+  tap,
+  throwError,
+} from 'rxjs';
 
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -13,8 +22,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { environment } from '@root/environments/environment';
 
-import { AuthService } from '../../services/authorization/auth.service';
+import { AuthService } from '../../services/auth.service';
 import { TermsPopupComponent } from '../terms-popup/terms-popup.component';
 import { SvgIconsModule } from '../../../shared/modules/svg-icons.module';
 import { emailValidator } from '../../validators/email.validator';
@@ -29,9 +39,10 @@ import { ISignupDto } from '../../models/auth.model';
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.scss'],
   imports: [
+    AsyncPipe,
+    NgClass,
     NgIf,
     ReactiveFormsModule,
-    RouterLink,
     RouterModule,
     SvgIconsModule,
     MatIconModule,
@@ -44,7 +55,13 @@ import { ISignupDto } from '../../models/auth.model';
   ],
   providers: [MatDialog],
 })
-export class SignupComponent {
+export class SignupComponent implements OnDestroy {
+  urlGoogleAuth: string = environment.urlGoogleAuth;
+
+  pendingResponceSubject: BehaviorSubject<boolean> = new BehaviorSubject(false);
+
+  subscription: Subscription | null = null;
+
   signupForm: FormGroup;
 
   termsAccepted: boolean = false;
@@ -57,7 +74,8 @@ export class SignupComponent {
     private readonly cdr: ChangeDetectorRef,
     private readonly fb: FormBuilder,
     private readonly matDialog: MatDialog,
-    private readonly authServise: AuthService
+    private readonly authServise: AuthService,
+    private readonly router: Router
   ) {
     this.signupForm = this.fb.group({
       username: ['', [usernameValidator]],
@@ -67,13 +85,7 @@ export class SignupComponent {
   }
 
   getErrorMessage(name: 'email' | 'password' | 'username'): string | null {
-    const error = this.signupForm.controls?.[name]?.getError(name);
-
-    if (error) {
-      return error;
-    }
-
-    return null;
+    return this.signupForm.controls?.[name]?.getError(name);
   }
 
   getTermsErrorMessage(): string | null {
@@ -102,7 +114,22 @@ export class SignupComponent {
     }
 
     const user: ISignupDto = signupForm.getRawValue();
-    this.authServise.signup(user);
+
+    this.pendingResponceSubject.next(true);
+    this.subscription = this.authServise
+      .signup(user)
+      .pipe(
+        tap(() => this.router.navigate(['/signin'])),
+        catchError((err) => {
+          if (err?.status === 409) {
+            this.showUserExistenceError();
+          }
+
+          return throwError(() => err);
+        }),
+        finalize(() => this.pendingResponceSubject.next(false))
+      )
+      .subscribe();
   }
 
   openDialog(): void {
@@ -111,17 +138,27 @@ export class SignupComponent {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.termsAccepted = result;
-        this.cdr.detectChanges();
+        this.cdr.markForCheck();
 
         return;
       }
 
       this.termsAccepted = false;
-      this.cdr.detectChanges();
+      this.cdr.markForCheck();
     });
   }
 
   togglePasswordVisibility(): void {
     this.hidden = !this.hidden;
+  }
+
+  showUserExistenceError(): void {
+    const { email } = this.signupForm.controls;
+    email.setErrors({ email: `User ${email.getRawValue()} already exists` });
+    email.markAsTouched();
+  }
+
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
   }
 }

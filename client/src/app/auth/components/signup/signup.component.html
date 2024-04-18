@@ -1,5 +1,8 @@
 <div class="wrapper">
-  <div class="signup-wrapper">
+  <div
+    class="signup-wrapper"
+    [ngClass]="{ disabled: pendingResponceSubject | async }"
+  >
     <h2 class="signup-title"><b>SMART</b>family.io</h2>
     <h3 class="signup-subtitle">Create an account</h3>
     <form class="signup-form" [formGroup]="signupForm">
@@ -88,7 +91,10 @@
         class="signup-form__submit-button"
         color="primary"
         (click)="submitForm()"
-        [disabled]="attempedSubmit && (signupForm.invalid || !termsAccepted)"
+        [disabled]="
+          (attempedSubmit && (signupForm.invalid || !termsAccepted)) ||
+          (pendingResponceSubject | async)
+        "
       >
         Sign up
       </button>
@@ -97,7 +103,7 @@
     <div class="divider">or sign up with</div>
 
     <div class="google-auth">
-      <a mat-button class="google-auth__button" href="https://google.com">
+      <a mat-button class="google-auth__button" [href]="urlGoogleAuth">
         <mat-icon class="mat-icon" svgIcon="google-icon"></mat-icon>
         Continue with Google
       </a>
