@@ -9,6 +9,12 @@
   background: #f4f5f7;
 }
 
+.disabled {
+  filter: blur(1px);
+
+  pointer-events: none;
+}
+
 .signin {
   &-wrapper {
     display: flex;

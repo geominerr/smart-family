@@ -1,5 +1,8 @@
 <div class="wrapper">
-  <div class="signin-wrapper">
+  <div
+    class="signin-wrapper"
+    [ngClass]="{ disabled: pendingResponceSubject | async }"
+  >
     <h2 class="signin-title"><b>SMART</b>family.io</h2>
     <form class="signin-form" [formGroup]="signinForm">
       <mat-form-field
@@ -51,7 +54,10 @@
         class="signin-form__submit-button"
         color="primary"
         (click)="submitForm()"
-        [disabled]="attempedSubmit && signinForm.invalid"
+        [disabled]="
+          (attempedSubmit && signinForm.invalid) ||
+          (pendingResponceSubject | async)
+        "
       >
         Login
       </button>
@@ -60,8 +66,7 @@
     <div class="divider">or sign in with</div>
 
     <div class="google-auth">
-      <!-- TO DO  add correct link -->
-      <a mat-button class="google-auth__button" href="https://google.com">
+      <a mat-button class="google-auth__button" [href]="urlGoogleAuth">
         <mat-icon class="mat-icon" svgIcon="google-icon"></mat-icon>
         Continue with Google
       </a>

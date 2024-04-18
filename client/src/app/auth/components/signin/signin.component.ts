@@ -1,15 +1,25 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { RouterLink, RouterModule } from '@angular/router';
+import { Router, RouterLink, RouterModule } from '@angular/router';
+import {
+  BehaviorSubject,
+  Subscription,
+  catchError,
+  finalize,
+  tap,
+  throwError,
+} from 'rxjs';
+import { AsyncPipe, NgClass } from '@angular/common';
 
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { environment } from '@root/environments/environment';
 
 import { SvgIconsModule } from '../../../shared/modules/svg-icons.module';
-import { AuthService } from '../../services/authorization/auth.service';
+import { AuthService } from '../../services/auth.service';
 import { emailValidator } from '../../validators/email.validator';
 import { passwordValidator } from '../../validators/password.validator';
 import { ILoginDto } from '../../models/auth.model';
@@ -21,6 +31,8 @@ import { ILoginDto } from '../../models/auth.model';
   templateUrl: './signin.component.html',
   styleUrls: ['./signin.component.scss'],
   imports: [
+    AsyncPipe,
+    NgClass,
     ReactiveFormsModule,
     RouterLink,
     RouterModule,
@@ -32,14 +44,21 @@ import { ILoginDto } from '../../models/auth.model';
     MatFormFieldModule,
   ],
 })
-export class SigninComponent {
+export class SigninComponent implements OnDestroy {
+  urlGoogleAuth: string = environment.urlGoogleAuth;
+
+  pendingResponceSubject: BehaviorSubject<boolean> = new BehaviorSubject(false);
+
+  subscription: Subscription | null = null;
+
   signinForm: FormGroup;
 
   attempedSubmit: boolean = false;
 
   constructor(
     private readonly authService: AuthService,
-    private readonly fb: FormBuilder
+    private readonly fb: FormBuilder,
+    private readonly router: Router
   ) {
     this.signinForm = this.fb.group({
       email: ['', [emailValidator]],
@@ -49,24 +68,56 @@ export class SigninComponent {
   }
 
   getErrorMessage(name: 'email' | 'password'): string | null {
-    const error = this.signinForm.controls?.[name]?.getError(name);
-
-    if (error) {
-      return error;
-    }
-
-    return null;
+    return this.signinForm.controls?.[name]?.getError(name);
   }
 
   submitForm(): void {
-    if (this.signinForm.invalid) {
+    if (!this.attempedSubmit) {
       this.attempedSubmit = true;
+    }
+
+    if (this.signinForm.invalid) {
       this.signinForm.markAllAsTouched();
 
       return;
     }
 
     const user: ILoginDto = this.signinForm.getRawValue();
-    this.authService.login(user);
+
+    this.pendingResponceSubject.next(true);
+    this.subscription = this.authService
+      .login(user)
+      .pipe(
+        tap(() => this.router.navigate(['/'])),
+        catchError((err) => {
+          if (err?.status === 403) {
+            this.showIncorrectPasswordError();
+          }
+
+          if (err?.status === 404) {
+            this.showUserNotFoundError();
+          }
+
+          return throwError(() => err);
+        }),
+        finalize(() => this.pendingResponceSubject.next(false))
+      )
+      .subscribe();
+  }
+
+  showIncorrectPasswordError() {
+    const { password } = this.signinForm.controls;
+    password.setErrors({ password: 'Incorrect password' });
+    password.markAsTouched();
+  }
+
+  showUserNotFoundError() {
+    const { email } = this.signinForm.controls;
+    email.setErrors({ email: `User ${email.getRawValue()} not found` });
+    email.markAsTouched();
+  }
+
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
   }
 }
