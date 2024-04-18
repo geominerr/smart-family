@@ -1,12 +1,26 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnDestroy,
+} from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { RouterLink, RouterModule } from '@angular/router';
+import { Router, RouterLink, RouterModule } from '@angular/router';
+import { AsyncPipe, NgClass } from '@angular/common';
+import {
+  BehaviorSubject,
+  Subscription,
+  catchError,
+  finalize,
+  tap,
+  throwError,
+} from 'rxjs';
 
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
-import { AuthService } from '../../services/authorization/auth.service';
+import { AuthService } from '../../services/auth.service';
 import { emailValidator } from '../../validators/email.validator';
 import { IResetDto } from '../../models/auth.model';
 
@@ -17,6 +31,8 @@ import { IResetDto } from '../../models/auth.model';
   templateUrl: './password-recovery.component.html',
   styleUrls: ['./password-recovery.component.scss'],
   imports: [
+    AsyncPipe,
+    NgClass,
     ReactiveFormsModule,
     RouterLink,
     RouterModule,
@@ -25,39 +41,66 @@ import { IResetDto } from '../../models/auth.model';
     MatFormFieldModule,
   ],
 })
-export class PasswordRecoveryComponent {
+export class PasswordRecoveryComponent implements OnDestroy {
+  pendingResponceSubject: BehaviorSubject<boolean> = new BehaviorSubject(false);
+
+  subscription: Subscription | null = null;
+
   passwordResetForm: FormGroup;
 
   attempedSubmit: boolean = false;
 
   constructor(
+    private readonly cdr: ChangeDetectorRef,
     private readonly authService: AuthService,
-    private readonly fb: FormBuilder
+    private readonly fb: FormBuilder,
+    private readonly router: Router
   ) {
     this.passwordResetForm = this.fb.group({
-      email: ['', [emailValidator]],
+      email: ['as@as.d', [emailValidator]],
     });
   }
 
   getErrorMessage(name: 'email'): string | null {
-    const error = this.passwordResetForm.controls?.[name]?.getError(name);
-
-    if (error) {
-      return error;
-    }
-
-    return null;
+    return this.passwordResetForm.controls?.[name]?.getError(name);
   }
 
   submitForm(): void {
-    if (this.passwordResetForm.invalid) {
+    if (!this.attempedSubmit) {
       this.attempedSubmit = true;
+    }
+
+    if (this.passwordResetForm.invalid) {
       this.passwordResetForm.markAllAsTouched();
 
       return;
     }
 
     const email: IResetDto = this.passwordResetForm.getRawValue();
-    this.authService.resetPassword(email);
+    this.pendingResponceSubject.next(true);
+    this.subscription = this.authService
+      .resetPassword(email)
+      .pipe(
+        tap(() => this.router.navigate(['signin'])),
+        catchError((err) => {
+          if (err?.status === 404) {
+            this.showUserNotFoundError();
+          }
+
+          return throwError(() => err);
+        }),
+        finalize(() => this.pendingResponceSubject.next(false))
+      )
+      .subscribe();
+  }
+
+  showUserNotFoundError() {
+    const { email } = this.passwordResetForm.controls;
+    email.setErrors({ email: `User ${email.getRawValue()} not found` });
+    email.markAsTouched();
+  }
+
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
   }
 }
