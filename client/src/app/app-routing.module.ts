@@ -1,27 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from '@app/auth/guards/auth.guard';
 
 const routes: Routes = [
   {
-    path: 'signin',
+    path: '',
     loadComponent: () =>
-      import('./auth/components/signin/signin.component').then(
-        (m) => m.SigninComponent
+      import('./dashboard/componets/dashboard/dashboard.component').then(
+        (m) => m.DashboardComponent
       ),
-  },
-  {
-    path: 'signup',
-    loadComponent: () =>
-      import('./auth/components/signup/signup.component').then(
-        (m) => m.SignupComponent
-      ),
-  },
-  {
-    path: 'password-recovery',
-    loadComponent: () =>
-      import(
-        './auth/components/password-recovery/password-recovery.component'
-      ).then((m) => m.PasswordRecoveryComponent),
+    canActivate: [AuthGuard],
   },
 ];
 

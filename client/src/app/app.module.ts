@@ -1,10 +1,15 @@
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app-routing.module';
+import { AuthInterceptor } from './auth/interceptor/auth.interceptor';
+import { AuthRoutingModule } from './auth/auth-routing.module';
+import { BaseUrlInterceptor } from './shared/interceptors/base-url.interceptor';
+import { HttpStateInterceptor } from './shared/interceptors/http-state.interceptor';
+import { StatusBarComponent } from './shared/components/status-bar/status-bar.component';
 
 @NgModule({
   declarations: [AppComponent],
@@ -13,8 +18,26 @@ import { AppComponent } from './app.component';
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
+    AuthRoutingModule,
+    StatusBarComponent,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: BaseUrlInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpStateInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
