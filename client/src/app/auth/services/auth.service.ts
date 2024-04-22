@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { filter, map, tap } from 'rxjs';
 
 import { CookiesService } from '@app/shared/services/cookies.service';
 import { ILoginDto, ISignupDto, IResetDto } from '../models/auth.model';
@@ -14,7 +16,8 @@ export class AuthService {
 
   constructor(
     private httpClient: HttpClient,
-    private cookiesService: CookiesService
+    private cookiesService: CookiesService,
+    private router: Router
   ) {}
 
   signup(dto: ISignupDto) {
@@ -27,6 +30,19 @@ export class AuthService {
     const endpoint = `${this.BASE_ENDPOINT}/signin`;
 
     return this.httpClient.post(endpoint, { ...dto }, { observe: 'response' });
+  }
+
+  logout() {
+    const endpoint = `${this.BASE_ENDPOINT}/logout`;
+
+    return this.httpClient.patch(endpoint, {}, { observe: 'response' }).pipe(
+      filter((res) => res.status === 204),
+      tap(() => {
+        this.removeAuthStatus();
+        this.router.navigate(['signin']);
+      }),
+      map(() => true)
+    );
   }
 
   resetPassword(dto: IResetDto) {
