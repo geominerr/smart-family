@@ -91,7 +91,7 @@ export class AuthController {
     headers: { ...descriptionHeaderCookies },
   })
   @ApiResponse({ status: 400, description: 'Invalid refresh token' })
-  @Get('refresh')
+  @Post('refresh')
   async updateTokens(@Req() req, @Res() res: Response) {
     const tokens = await this.authService.refreshTokens(req.cookies?.refresh);
 
