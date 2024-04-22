@@ -1,0 +1,51 @@
+version: '3.4'
+
+networks:
+  custom_bridge:
+    driver: bridge
+
+services:
+  postgres_db:
+    restart: on-failure
+    build:
+      context: .
+      dockerfile: ./docker/postgres-db.dockerfile
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+      - pg_logs:/var/log/postgresql
+    ports:
+      - ${DB_HOST_PORT}:${DB_CONTAINER_PORT}
+    networks:
+      - custom_bridge
+    healthcheck:
+      test: ['CMD', 'pg_isready -U &{POSTGRES_USER}']
+      interval: 10s
+      timeout: 7s
+      retries: 7
+    env_file: .env
+
+  nest_app:
+    restart: on-failure
+    build:
+      context: .
+      dockerfile: ./docker/nest-app.dockerfile
+    environment:
+      DB_HOST: postgres_db
+    volumes:
+      - ./src:/app/src
+    ports:
+      - '${PORT}:${CONTAINER_PORT}'
+    depends_on:
+      postgres_db:
+        condition: service_started
+    networks:
+      - custom_bridge
+    env_file: .env
+
+volumes:
+  pg_data:
+  pg_logs:
