@@ -136,14 +136,7 @@ export class SignupComponent implements OnDestroy {
     const dialogRef = this.matDialog.open(TermsPopupComponent);
 
     dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.termsAccepted = result;
-        this.cdr.markForCheck();
-
-        return;
-      }
-
-      this.termsAccepted = false;
+      this.termsAccepted = result;
       this.cdr.markForCheck();
     });
   }
