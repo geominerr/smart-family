@@ -1,8 +1,8 @@
 import { AsyncPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { RequestStateService } from '@app/shared/services/request-state.service';
-import { Observable } from 'rxjs';
+import { Observable, delay } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -12,10 +12,14 @@ import { Observable } from 'rxjs';
   styleUrls: ['./status-bar.component.scss'],
   imports: [NgIf, AsyncPipe, MatProgressBarModule],
 })
-export class StatusBarComponent {
-  isPendingResponce$: Observable<boolean>;
+export class StatusBarComponent implements OnInit {
+  isPendingResponce$!: Observable<boolean>;
 
-  constructor(private requestStateService: RequestStateService) {
-    this.isPendingResponce$ = this.requestStateService.getLoadingState();
+  constructor(private requestStateService: RequestStateService) {}
+
+  ngOnInit(): void {
+    this.isPendingResponce$ = this.requestStateService
+      .getLoadingState()
+      .pipe(delay(0));
   }
 }
