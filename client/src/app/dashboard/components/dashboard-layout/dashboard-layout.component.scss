@@ -1,0 +1,13 @@
+.dashboard {
+  display: flex;
+  min-height: 100%;
+  width: 100%;
+
+  background: #f4f5f7;
+
+  &__main-container {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+}

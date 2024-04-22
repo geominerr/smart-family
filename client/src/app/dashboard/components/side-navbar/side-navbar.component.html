@@ -1,0 +1,56 @@
+<nav
+  appOutsideClick
+  (outsideClick)="close()"
+  [ngClass]="{
+    'sidebar--tablet': isTablet$ | async,
+    'sidebar--mobile': isMobile$ | async,
+    'sidebar--opened': isOpened
+  }"
+  class="sidebar"
+>
+  <button
+    class="button button--menu"
+    mat-icon-button
+    color="primary"
+    (click)="open($event)"
+  >
+    <mat-icon class="mat-icon">menu</mat-icon>
+  </button>
+  <button
+    class="button button--close"
+    mat-icon-button
+    (click)="close()"
+    color="primary"
+  >
+    <mat-icon class="mat-icon">close</mat-icon>
+  </button>
+  <h3 class="sidebar__title"><b>SMART</b>Family.io</h3>
+  <mat-nav-list role="navigation" class="nav-list">
+    <ng-container *ngFor="let link of navLinks; let lastLink = last">
+      <ng-container *ngIf="!lastLink; else logoutButton">
+        <a
+          mat-button
+          [routerLink]="link.routerLink"
+          routerLinkActive="nav-list__item--active"
+          class="nav-list__item"
+          color="primary"
+          (click)="close()"
+        >
+          <mat-icon [svgIcon]="link.icon"></mat-icon>
+          {{ link.content }}
+        </a>
+      </ng-container>
+      <ng-template #logoutButton>
+        <button
+          mat-button
+          class="nav-list__item"
+          color="accent"
+          (click)="openDialog()"
+        >
+          <mat-icon [svgIcon]="link.icon"></mat-icon>
+          {{ link.content }}
+        </button>
+      </ng-template>
+    </ng-container>
+  </mat-nav-list>
+</nav>

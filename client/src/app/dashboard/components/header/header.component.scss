@@ -1,0 +1,49 @@
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+  padding: 20px 40px;
+
+  border-bottom: 1px solid rgba(224, 224, 224, 0.1);
+  background: #e8e8e8;
+
+  &__title {
+    font-weight: 400;
+    font-size: 2rem;
+  }
+
+  &--tablet {
+    justify-content: end;
+  }
+
+  &--mobile {
+    justify-content: end;
+
+    .date {
+      display: none;
+    }
+  }
+}
+
+.date {
+  font-size: 1.8rem;
+}
+
+.finance {
+  display: flex;
+  gap: 35px;
+
+  &__button {
+    transform: scale(1.2);
+    background-color: rgba(191, 226, 222, 0.8);
+
+    mat-icon {
+      transform: scale(1.1);
+    }
+
+    &:last-child {
+      background-color: rgba(226, 192, 191, 0.8);
+    }
+  }
+}

@@ -1,0 +1,117 @@
+<div class="wrapper">
+  <div
+    class="signup-wrapper"
+    [ngClass]="{ disabled: pendingResponceSubject | async }"
+  >
+    <h2 class="signup-title"><b>SMART</b>family.io</h2>
+    <h3 class="signup-subtitle">Create an account</h3>
+    <form class="signup-form" [formGroup]="signupForm">
+      <mat-form-field
+        class="signup-form__field"
+        appearance="outline"
+        floatLabel="always"
+        hideRequiredMarker
+      >
+        <mat-label class="mat-label">Username</mat-label>
+        <input
+          matInput
+          type="text"
+          placeholder="username"
+          formControlName="username"
+        />
+        <mat-error class="mat-error">{{
+          getErrorMessage('username')
+        }}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field
+        class="signup-form__field"
+        appearance="outline"
+        floatLabel="always"
+        hideRequiredMarker
+      >
+        <mat-label class="mat-label">Email</mat-label>
+        <input
+          matInput
+          type="email"
+          placeholder="example@example.com"
+          formControlName="email"
+        />
+        <mat-error class="mat-error">{{ getErrorMessage('email') }}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field
+        class="signup-form__field"
+        appearance="outline"
+        floatLabel="always"
+        hideRequiredMarker
+      >
+        <mat-label class="mat-label">Password</mat-label>
+        <input
+          matInput
+          [type]="hidden ? 'password' : 'text'"
+          placeholder="password"
+          formControlName="password"
+        />
+        <div
+          class="password-hidden"
+          tabindex="0"
+          (click)="togglePasswordVisibility()"
+          (keyup.enter)="togglePasswordVisibility()"
+          (keyup.space)="togglePasswordVisibility()"
+        >
+          <mat-icon *ngIf="hidden">visibility_off</mat-icon>
+          <mat-icon *ngIf="!hidden">visibility</mat-icon>
+        </div>
+        <mat-error class="mat-error">
+          {{ getErrorMessage('password') }}
+        </mat-error>
+      </mat-form-field>
+
+      <div class="link-wrapper link-wrapper--terms">
+        <div class="terms__link">
+          <span>By continuing, you agree to our</span>
+          <a
+            tabindex="0"
+            class="link"
+            (click)="openDialog()"
+            (keyup.enter)="openDialog()"
+            (keyup.space)="openDialog()"
+          >
+            terms of service
+          </a>
+        </div>
+        <mat-error class="terms__error">
+          {{ getTermsErrorMessage() }}
+        </mat-error>
+      </div>
+
+      <button
+        mat-flat-button
+        class="signup-form__submit-button"
+        color="primary"
+        (click)="submitForm()"
+        [disabled]="
+          (attempedSubmit && (signupForm.invalid || !termsAccepted)) ||
+          (pendingResponceSubject | async)
+        "
+      >
+        Sign up
+      </button>
+    </form>
+
+    <div class="divider">or sign up with</div>
+
+    <div class="google-auth">
+      <a mat-button class="google-auth__button" [href]="urlGoogleAuth">
+        <mat-icon class="mat-icon" svgIcon="google"></mat-icon>
+        Continue with Google
+      </a>
+    </div>
+
+    <div class="link-wrapper">
+      <span>Already have an account ?</span>
+      <a class="link" routerLink="/signin">Sign in here</a>
+    </div>
+  </div>
+</div>
