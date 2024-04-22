@@ -7,7 +7,18 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class SvgIconsModule {
   private icons: Record<string, string> = {
-    'google-icon': 'assets/icons/google-icon.svg',
+    bill: 'assets/icons/bill.svg',
+    goal: 'assets/icons/goal.svg',
+    group: 'assets/icons/group.svg',
+    google: 'assets/icons/google.svg',
+    logout: 'assets/icons/logout.svg',
+    wallet: 'assets/icons/wallet.svg',
+    overview: 'assets/icons/overview.svg',
+    settings: 'assets/icons/settings.svg',
+    expenses: 'assets/icons/expenses.svg',
+    transaction: 'assets/icons/transaction.svg',
+    'trend-up': 'assets/icons/trend-up.svg',
+    'trend-down': 'assets/icons/trend-down.svg',
   };
 
   constructor(
