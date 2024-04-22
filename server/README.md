@@ -17,7 +17,7 @@ $ npm install
 ## Enviroment
 
 ```bash
-$ cd .env.example .env
+$ cp .env.example .env
 ```
 
 ## Running the app
@@ -39,6 +39,14 @@ $ npm run prisma:studio
 ```
 
 Prisma Studio is up on http://localhost:5555
+
+## Build
+
+```bash
+$ npm run build
+```
+
+The build artifacts will be stored in the `dist/` directory.
 
 ## Test
 
