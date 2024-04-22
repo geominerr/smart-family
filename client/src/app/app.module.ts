@@ -10,6 +10,7 @@ import { AuthRoutingModule } from './auth/auth-routing.module';
 import { BaseUrlInterceptor } from './shared/interceptors/base-url.interceptor';
 import { HttpStateInterceptor } from './shared/interceptors/http-state.interceptor';
 import { StatusBarComponent } from './shared/components/status-bar/status-bar.component';
+import { DashboardRoutingModule } from './dashboard/dashboard-routing.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -19,6 +20,7 @@ import { StatusBarComponent } from './shared/components/status-bar/status-bar.co
     HttpClientModule,
     AppRoutingModule,
     AuthRoutingModule,
+    DashboardRoutingModule,
     StatusBarComponent,
   ],
   providers: [
