@@ -54,7 +54,7 @@ export class AuthService {
   refreshToken() {
     const endpoint = `${this.BASE_ENDPOINT}/refresh`;
 
-    return this.httpClient.get(endpoint);
+    return this.httpClient.post(endpoint, {});
   }
 
   getAuthStatus(): boolean {
