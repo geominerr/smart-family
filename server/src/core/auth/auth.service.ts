@@ -65,6 +65,13 @@ export class AuthService {
     return await this.getJwtTokens(user);
   }
 
+  async logout(refreshToken: string) {
+    // TO DO
+    // Extend db add refreshToken field, add / remove operations
+
+    console.log('refreshToken', refreshToken);
+  }
+
   async googleAuth(dto: GoogleAuthDto) {
     let user = await this.authRepository.findUserByEmail(dto.email);
 

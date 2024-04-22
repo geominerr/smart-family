@@ -6,6 +6,7 @@ import {
   Req,
   UseGuards,
   Res,
+  Patch,
 } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
@@ -59,6 +60,21 @@ export class AuthController {
     updatedRes.send();
   }
 
+  @Patch('logout')
+  @ApiResponse({ status: 204, description: 'Remove cookies' })
+  @ApiResponse({ status: 400, description: 'Invalid refresh token' })
+  @ApiResponse({ status: 404, description: 'User not found' })
+  async logout(@Req() req, @Res() res: Response) {
+    // TO DO CORRECT LOGOUT !!!
+    await this.authService.logout(req.cookies?.refresh);
+
+    ['_auth-status', 'auth', 'refresh'].forEach((cookie) =>
+      res.clearCookie(cookie),
+    );
+
+    res.status(204).send();
+  }
+
   @Post('reset')
   @ApiResponse({ status: 201, description: 'Password reset successful' })
   @ApiResponse({ status: 400, description: 'Invalid body request' })
@@ -74,7 +90,7 @@ export class AuthController {
       'Cookies Set: "auth" (required), "refresh" and "_auth-status" (optional).',
     headers: { ...descriptionHeaderCookies },
   })
-  @ApiResponse({ status: 401, description: 'Invalid refresh token' })
+  @ApiResponse({ status: 400, description: 'Invalid refresh token' })
   @Get('refresh')
   async updateTokens(@Req() req, @Res() res: Response) {
     const tokens = await this.authService.refreshTokens(req.cookies?.refresh);
