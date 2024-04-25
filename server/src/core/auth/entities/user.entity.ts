@@ -24,6 +24,12 @@ export class User {
   username: string;
 
   @ApiProperty({
+    type: String,
+    example: 'f47ac10b-58cc-4372-a567-0e02b2c3d479 | null',
+  })
+  budgetId?: string;
+
+  @ApiProperty({
     type: Number,
     example: 1,
   })

@@ -12,9 +12,10 @@ import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
 import { Response } from 'express';
 
+import { SkipAuth } from './decorators/skip-auth-guard.decorator';
 import { AuthService } from '../auth/auth.service';
 import { User } from '../auth/entities/user.entity';
-import { Tokens } from '../auth/entities/auth.entity';
+import { AuthData } from '../auth/entities/auth.entity';
 import { SignupDto } from '../auth/dto/signup.dto';
 import { SigninDto } from '../auth/dto/signin.dto';
 import { PassResetDto } from '../auth/dto/pass-reset.dto';
@@ -34,6 +35,7 @@ export class AuthController {
       this.configService.get('GOOGLE_CONFIG').REDIRECT_CLIENT_URL;
   }
 
+  @SkipAuth()
   @Post('signup')
   @ApiResponse({ status: 201, type: User })
   @ApiResponse({ status: 400, description: 'Invalid body request' })
@@ -42,6 +44,7 @@ export class AuthController {
     return this.authService.signup(dto);
   }
 
+  @SkipAuth()
   @Post('signin')
   @ApiResponse({
     status: 201,
@@ -53,13 +56,14 @@ export class AuthController {
   @ApiResponse({ status: 403, description: 'Incorrect password' })
   @ApiResponse({ status: 404, description: 'User not found' })
   async signin(@Body() dto: SigninDto, @Res() res: Response) {
-    const tokens = await this.authService.signin(dto);
+    const authData = await this.authService.signin(dto);
 
-    const updatedRes = this.setCookies(res, tokens);
+    const updatedRes = this.setCookies(res, { ...authData });
 
     updatedRes.send();
   }
 
+  @SkipAuth()
   @Patch('logout')
   @ApiResponse({ status: 204, description: 'Remove cookies' })
   @ApiResponse({ status: 400, description: 'Invalid refresh token' })
@@ -75,6 +79,7 @@ export class AuthController {
     res.status(204).send();
   }
 
+  @SkipAuth()
   @Post('reset')
   @ApiResponse({ status: 201, description: 'Password reset successful' })
   @ApiResponse({ status: 400, description: 'Invalid body request' })
@@ -84,32 +89,40 @@ export class AuthController {
     return this.authService.resetPassword(dto);
   }
 
+  @SkipAuth()
+  @Post('refresh')
   @ApiResponse({
     status: 200,
-    description:
-      'Cookies Set: "auth" (required), "refresh" and "_auth-status" (optional).',
-    headers: { ...descriptionHeaderCookies },
+    description: 'Cookies Set: "auth" (required)',
+    headers: { 'Set-cookie': { ...descriptionHeaderCookies['Set-Cookie-1'] } },
   })
   @ApiResponse({ status: 400, description: 'Invalid refresh token' })
-  @Post('refresh')
   async updateTokens(@Req() req, @Res() res: Response) {
-    const tokens = await this.authService.refreshTokens(req.cookies?.refresh);
+    const { accessToken, expireTime } = await this.authService.refreshTokens(
+      req.cookies?.refresh,
+    );
 
-    const updatedRes = this.setCookies(res, tokens);
+    res.cookie('auth', accessToken, {
+      httpOnly: true,
+      sameSite: 'strict',
+      maxAge: expireTime,
+    });
 
-    updatedRes.send();
+    res.send();
   }
 
-  @Get('google')
+  @SkipAuth()
   @UseGuards(GoogleOauthGuard)
+  @Get('google')
   @ApiResponse({
     status: 302,
     description: 'Redirect to Google OAuth',
   })
   googleAuth() {}
 
-  @Get('google/callback')
+  @SkipAuth()
   @UseGuards(GoogleOauthGuard)
+  @Get('google/callback')
   @ApiResponse({
     status: 302,
     description:
@@ -117,14 +130,16 @@ export class AuthController {
     headers: { ...descriptionHeaderCookies },
   })
   async googleAuthRedirect(@Req() req, @Res() res: Response) {
-    const tokens = await this.authService.googleAuth(req?.user);
+    const authData = await this.authService.googleAuth(req?.user);
 
-    const updatedRes = this.setCookies(res, tokens);
+    const updatedRes = this.setCookies(res, { ...authData });
 
     updatedRes.redirect(this.clientUrl);
   }
 
-  private setCookies(res: Response, tokens: Tokens) {
+  private setCookies(res: Response, authData: AuthData) {
+    const { userId, tokens } = authData;
+
     res.cookie('auth', tokens.accessToken, {
       httpOnly: true,
       sameSite: 'strict',
@@ -138,7 +153,7 @@ export class AuthController {
         maxAge: tokens.refreshExpireTime,
       });
 
-      res.cookie('_auth-status', true, {
+      res.cookie('_auth-status', userId, {
         sameSite: 'strict',
         maxAge: tokens.refreshExpireTime,
       });
