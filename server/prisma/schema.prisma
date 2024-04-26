@@ -8,11 +8,84 @@ datasource db {
 }
 
 model User {
-  id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  email        String   @unique
-  password     String
-  username     String
-  version      Int      @default(1)
-  createdAt    DateTime @updatedAt @db.Timestamp
-  updatedAt    DateTime @default(now()) @db.Timestamp
+  id        String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email     String    @unique
+  password  String
+  username  String
+  version   Int       @default(1)
+  createdAt DateTime  @updatedAt @db.Timestamp
+  updatedAt DateTime  @default(now()) @db.Timestamp
+  Budget    Budget?   @relation(fields: [budgetId], references: [id])
+  budgetId  String?   @db.Uuid
+  Expenses  Expense[]
+  Incomes   Income[]
+}
+
+model Budget {
+  id       String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name     String
+  goal     Float
+  currency Currency
+  Users    User[]
+  Expenses Expense[]
+  Incomes  Income[]
+}
+
+model Expense {
+  id          String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  amount      Float
+  category    ExpenseCategory
+  date        DateTime
+  description String?
+  Budget      Budget          @relation(fields: [budgetId], references: [id])
+  budgetId    String          @db.Uuid
+  User        User            @relation(fields: [userId], references: [id])
+  userId      String          @db.Uuid
+}
+
+model Income {
+  id          String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  amount      Float
+  category    IncomeCategory
+  date        DateTime
+  description String?
+  Budget      Budget         @relation(fields: [budgetId], references: [id])
+  budgetId    String         @db.Uuid
+  User        User           @relation(fields: [userId], references: [id])
+  userId      String         @db.Uuid
+}
+
+enum Currency {
+  USD
+  EUR
+  GBP
+  UAH
+}
+
+enum ExpenseCategory {
+  HOUSING
+  TRANSPORTATION
+  FOOD
+  UTILITIES
+  CLOTHING
+  HEALTHCARE
+  INSURANCE
+  HOUSEHOLD_ITEMS
+  PERSONAL
+  DEBT
+  RETIREMENT
+  EDUCATION
+  SAVINGS
+  GIFTS
+  ENTERTAINMENT
+}
+
+enum IncomeCategory {
+  SALARY
+  FREELANCE
+  INVESTMENTS
+  BUSINESS_INCOME
+  RENTAL_INCOME
+  GIFTS
+  OTHER
 }
