@@ -23,7 +23,7 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get(':id')
-  @ApiResponse({ status: 20, type: User })
+  @ApiResponse({ status: 200, type: User })
   @ApiResponse({ status: 400, description: 'Invalid UUID' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 403, description: 'Insufficient permissions' })
