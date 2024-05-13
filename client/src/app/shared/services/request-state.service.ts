@@ -8,7 +8,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class RequestStateService {
   private requests: Map<HttpRequest<unknown>, boolean> = new Map();
 
-  loadingSubject: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  private loadingSubject: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   addRequest(req: HttpRequest<unknown>): void {
     this.requests.set(req, true);
