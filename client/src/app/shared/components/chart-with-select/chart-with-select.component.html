@@ -1,0 +1,14 @@
+<div class="chart">
+  <ng-container *ngIf="chartSource?.length">
+    <app-select
+      [selected]="currPeriod"
+      [dataSource]="chartSource"
+      (selectEvent)="updateChart($event)"
+    ></app-select>
+  </ng-container>
+  <app-chart-bar
+    [periodType]="period"
+    [dataSource]="chartSource"
+    [currentPeriod]="currPeriod"
+  ></app-chart-bar>
+</div>

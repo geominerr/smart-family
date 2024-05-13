@@ -1,0 +1,20 @@
+<div class="category">
+  <div class="category__header">
+    <div class="category__header-icon">
+      <mat-icon>{{ getIconName(data.category) }}</mat-icon>
+    </div>
+
+    <div class="category__description">
+      <p class="category__label">{{ data.category | titlecase }}</p>
+      <p class="category__amount">
+        {{ converteToCoins(data.currSum) | currency : currency }}
+      </p>
+      <p
+        class="category__compare-value arrow-up"
+        [ngClass]="{ 'arrow-down': getMonthTrend() }"
+      >
+        {{ getDiffInPercent() }}
+      </p>
+    </div>
+  </div>
+</div>

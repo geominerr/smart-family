@@ -1,0 +1,9 @@
+<ng-container *ngIf="dataSource">
+  <mat-form-field class="select">
+    <mat-select [(value)]="selected" (valueChange)="selectEvent.emit($event)">
+      <ng-container *ngFor="let data of dataSource; let i = index">
+        <mat-option [value]="i">{{ data.period }}</mat-option>
+      </ng-container>
+    </mat-select>
+  </mat-form-field>
+</ng-container>

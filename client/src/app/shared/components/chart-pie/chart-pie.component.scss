@@ -1,0 +1,10 @@
+.chart {
+  width: 100%;
+
+  background-color: #ffffff;
+
+  &__canvas {
+    padding: 10px;
+    max-width: 100%;
+  }
+}

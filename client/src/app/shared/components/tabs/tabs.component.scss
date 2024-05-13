@@ -1,0 +1,15 @@
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 10px 10px 5px;
+  gap: 15px;
+}
+
+.button {
+  border-radius: 0%;
+  height: 30px;
+
+  &--active {
+    border-bottom: 3px solid #299d91;
+  }
+}
