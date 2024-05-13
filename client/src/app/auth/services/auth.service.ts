@@ -57,14 +57,12 @@ export class AuthService {
     return this.httpClient.post(endpoint, {});
   }
 
+  getUserId(): string | null {
+    return this.cookiesService.getCookieValue(this.AUTH_COOKIE);
+  }
+
   getAuthStatus(): boolean {
-    const cookie = this.cookiesService.getCookie(this.AUTH_COOKIE);
-
-    if (!cookie) {
-      return false;
-    }
-
-    return true;
+    return !!this.cookiesService.getCookie(this.AUTH_COOKIE);
   }
 
   removeAuthStatus(): void {
