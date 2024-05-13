@@ -7,8 +7,6 @@ import { OverviewComponent } from './components/overview/overview.component';
 import { TransactionsComponent } from './components/transactions/transactions.component';
 import { IncomeComponent } from './components/income/income.component';
 import { ExpensesComponent } from './components/expenses/expenses.component';
-import { BillsComponent } from './components/bills/bills.component';
-import { GoalsComponent } from './components/goals/goals.component';
 import { SettingsComponent } from './components/settings/settings.component';
 
 const routes: Routes = [
@@ -44,16 +42,6 @@ const routes: Routes = [
       {
         path: 'expenses',
         component: ExpensesComponent,
-        canActivate: [AuthGuard],
-      },
-      {
-        path: 'bills',
-        component: BillsComponent,
-        canActivate: [AuthGuard],
-      },
-      {
-        path: 'goals',
-        component: GoalsComponent,
         canActivate: [AuthGuard],
       },
       {
