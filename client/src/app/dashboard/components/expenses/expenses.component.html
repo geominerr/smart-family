@@ -1,1 +1,35 @@
-<p>expenses works!</p>
+<div class="expenses">
+  <div class="expenses__comparison">
+    <h3 class="expenses__subtitle">Expenses Comparison</h3>
+
+    <div class="expenses__chart">
+      <ng-container *ngIf="chartSource$ | async as chartSource">
+        <app-chart-with-select
+          class="expenses__chart-canvas"
+          [chartSource]="chartSource"
+        ></app-chart-with-select>
+      </ng-container>
+    </div>
+  </div>
+
+  <ng-container *ngIf="categorySourse$ | async as categorySource">
+    <div class="expenses__breakdown">
+      <h3 class="expenses__subtitle">Expenses Breakdown</h3>
+
+      <div
+        class="category-list"
+        [ngClass]="{
+          'category-list--desktop': isDesktop$ | async,
+          'category-list--mobile': isMobile$ | async
+        }"
+      >
+        <ng-container *ngFor="let data of categorySource">
+          <app-breakdown
+            [data]="data"
+            class="category-list__item"
+          ></app-breakdown>
+        </ng-container>
+      </div>
+    </div>
+  </ng-container>
+</div>

@@ -1,0 +1,156 @@
+.overview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+
+  box-sizing: border-box;
+  padding: 15px;
+
+  width: 100%;
+
+  &__layout {
+    display: flex;
+    justify-content: space-between;
+    gap: 25px;
+    overflow: hidden;
+
+    width: 100%;
+    height: calc(100vh - 130px);
+  }
+
+  &__subtitle {
+    padding: 5px 0 10px;
+
+    font-weight: 500;
+    font-size: 2.2rem;
+    color: rgb(169, 169, 169);
+  }
+
+  .transactions {
+    min-width: 295px;
+    width: 30%;
+    height: 100%;
+
+    &__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    }
+
+    &__link {
+      font-size: 1.2rem;
+    }
+
+    &__list {
+      width: 100%;
+      height: calc(100% - 41px);
+    }
+  }
+
+  .expenses {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 25px;
+
+    width: 70%;
+    height: 100%;
+
+    &__chart {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
+
+    &__chart-canvas {
+      width: 100%;
+    }
+
+    &__breakdown {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+      width: 100%;
+    }
+
+    &__list {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      justify-content: center;
+      overflow-y: auto;
+      gap: 1px;
+      width: 100%;
+
+      background-color: rgb(255, 255, 255);
+    }
+
+    &__list-item {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-sizing: border-box;
+      padding: 5px;
+      width: 100%;
+
+      outline: 1px solid rgb(243, 243, 243);
+    }
+  }
+
+  &--desktop {
+    .expenses {
+      &__list {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  }
+
+  &--tablet {
+    padding: 15px 20px;
+
+    .overview__subtitle {
+      font-size: 2rem;
+    }
+
+    .overview__layout {
+      flex-direction: column;
+      align-items: center;
+      height: 100%;
+      overflow: auto;
+    }
+
+    .transactions,
+    .expenses {
+      min-width: 100px;
+      width: 100%;
+    }
+    .expenses {
+      gap: 30px;
+    }
+
+    .transactions__list {
+      height: 280px;
+    }
+
+    .expenses {
+      &__list {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  }
+
+  &--mobile {
+    .overview__subtitle {
+      font-size: 1.8rem;
+    }
+
+    .expenses {
+      &__list {
+        grid-template-columns: repeat(1, 1fr);
+      }
+    }
+  }
+}

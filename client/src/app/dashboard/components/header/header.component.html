@@ -9,11 +9,21 @@
     <time> {{ currDate | date }}</time>
   </div>
 
-  <div class="finance">
-    <button mat-icon-button class="finance__button" color="primary">
+  <div class="finance" *ngIf="user?.budgetId">
+    <button
+      mat-icon-button
+      class="finance__button"
+      color="primary"
+      (click)="openIncomeDialog()"
+    >
       <mat-icon svgIcon="trend-up"></mat-icon>
     </button>
-    <button mat-icon-button class="finance__button" color="accent">
+    <button
+      mat-icon-button
+      class="finance__button"
+      color="accent"
+      (click)="openExpenseDialog()"
+    >
       <mat-icon svgIcon="trend-down"></mat-icon>
     </button>
   </div>

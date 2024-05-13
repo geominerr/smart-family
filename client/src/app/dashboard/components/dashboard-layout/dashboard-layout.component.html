@@ -1,8 +1,12 @@
-<div class="dashboard">
+<div class="dashboard" [ngClass]="{ 'dashboard--tablet': isTablet$ | async }">
   <app-side-navbar></app-side-navbar>
 
-  <div class="dashboard__main-container">
-    <app-header></app-header>
+  <div
+    class="dashboard__main-container"
+    #mainContainer
+    [scrollTop]="isChangeView$ | async"
+  >
+    <app-header class="dashboard__header" [user]="user$ | async"></app-header>
     <router-outlet></router-outlet>
   </div>
 </div>
