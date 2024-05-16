@@ -20,7 +20,7 @@ import { CurrencyType } from '@app/shared/models/budget.model';
 import { CategoryIconMapperService } from '@app/shared/services/category-icon-mapper.service';
 import { DataTableSource } from '@app/shared/models/data-view.model';
 
-type TTransaction = 'income' | 'expenses';
+export type TTransaction = 'income' | 'expenses';
 
 @Component({
   standalone: true,
