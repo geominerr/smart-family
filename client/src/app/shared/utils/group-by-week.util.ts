@@ -45,12 +45,20 @@ export const sortByDate = (transactions: TTransaction[]) => {
   });
 };
 
+const getDiffWeeks = (transactionDate: Date, firstWeekDay: Date): number[] => {
+  const diffTime = firstWeekDay.getTime() - transactionDate.getTime();
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  const diffWeeks = Math.ceil(diffDays / 7);
+
+  return Array(diffWeeks).fill(1);
+};
+
 const correctDayIndex = (index: number) => {
   return index - 1 >= 0 ? index - 1 : 6;
 };
 
 const createWeekTemplate = (startDate: Date): DataChartSource => {
-  const labels = ['Mon', 'Thu', 'Tue', 'Wen', 'Fri', 'Sat', 'Sun'];
+  const labels = ['Mon', 'Tue', 'Wen', 'Thu', 'Fri', 'Sat', 'Sun'];
 
   return {
     period: createWeekInterval(startDate),
@@ -64,20 +72,22 @@ export const groupByWeekWithDailySums = (transactions: TTransaction[]) => {
   const firstWeekDay = getLastMonday(sortedTransactions[0].date);
 
   let currentWeek = createWeekTemplate(firstWeekDay);
-
-  const weeklyTransactions: DataChartSource[] = [currentWeek];
+  const weeklyTransactions: DataChartSource[] = [{ ...currentWeek }];
 
   sortedTransactions.forEach((transaction) => {
     const transactionDate = new Date(transaction.date);
 
     if (transactionDate < firstWeekDay) {
-      firstWeekDay.setDate(firstWeekDay.getDate() - 7);
+      getDiffWeeks(transactionDate, firstWeekDay).forEach(() => {
+        firstWeekDay.setDate(firstWeekDay.getDate() - 7);
 
-      currentWeek = createWeekTemplate(firstWeekDay);
-      weeklyTransactions.push(currentWeek);
+        currentWeek = createWeekTemplate(firstWeekDay);
+        weeklyTransactions.push(currentWeek);
+      });
     }
 
     const dayIndex = correctDayIndex(transactionDate.getDay());
+
     currentWeek.data[dayIndex] += transaction.amount;
   });
 
