@@ -51,7 +51,7 @@ export const converteToChartData = (
     .map((monthData) =>
       monthData.categories
         .sort((a, b) => {
-          return a.category > b.category ? -1 : 1;
+          return a.category < b.category ? -1 : 1;
         })
         .reduce(
           (acc, curr) => {
