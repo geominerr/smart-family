@@ -1,8 +1,22 @@
-import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Inject,
+  OnInit,
+} from '@angular/core';
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  ReactiveFormsModule,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 
-import { MatDialogModule, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import {
+  MatDialogModule,
+  MAT_DIALOG_DATA,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -49,11 +63,14 @@ export class CreateBudgetModalComponent implements OnInit {
   private messageMap: Record<TControlName, Record<string, string>> = {
     goal: {
       required: 'Goal is required field',
-      min: 'Must be greater 0 ',
+      min: 'Must be greater 0',
       max: `Must be less ${this.maxGoalValue}`,
     },
     currency: { required: 'Category is required field' },
-    name: { pattern: 'Name must be a string' },
+    name: {
+      required: 'Name is required field',
+      pattern: 'Name must be a string',
+    },
   };
 
   constructor(
@@ -65,7 +82,10 @@ export class CreateBudgetModalComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      name: ['', [Validators.required, Validators.pattern(this.alphabetRegexp)]],
+      name: [
+        '',
+        [Validators.required, Validators.pattern(this.alphabetRegexp)],
+      ],
       currency: ['', [Validators.required]],
       goal: ['', [Validators.required]],
     });

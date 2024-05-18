@@ -46,7 +46,7 @@ export class CreateBudgetComponent implements OnInit, OnDestroy {
     goal: 10000,
     expensesRecords: 1000,
     incomeRecords: 450,
-    period: 4,
+    period: 3,
   };
 
   constructor(

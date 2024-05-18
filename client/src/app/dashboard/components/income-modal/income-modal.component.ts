@@ -78,7 +78,7 @@ export class IncomeModalComponent implements OnInit {
   private messageMap: Record<TControlName, Record<string, string>> = {
     amount: {
       required: 'Amount is required field',
-      min: 'Must be greater 0 ',
+      min: 'Must be greater 0',
       max: `Must be less ${this.maxAmountValue}`,
     },
     category: { required: 'Category is required field' },
