@@ -53,7 +53,6 @@ import { ISignupDto } from '../../models/auth.model';
     MatFormFieldModule,
     TermsPopupComponent,
   ],
-  providers: [MatDialog],
 })
 export class SignupComponent implements OnDestroy {
   urlGoogleAuth: string = environment.urlGoogleAuth;
