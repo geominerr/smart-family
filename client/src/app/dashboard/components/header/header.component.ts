@@ -12,15 +12,21 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { BreakpointObserver } from '@angular/cdk/layout';
 
+import { Store } from '@ngrx/store';
 import { UserState } from '@app/store/user/user.reducer';
+import { selectBudgetMode } from '@app/store/budget/budget.selectors';
 
 import { SvgIconsModule } from '@app/shared/modules/svg-icons.module';
 import { IUserData } from '@app/dashboard/models/user-data.model';
 
 import { ExpenseModalComponent } from '@app/dashboard/components/expense-modal/expense-modal.component';
 import { IncomeModalComponent } from '@app/dashboard/components/income-modal/income-modal.component';
+import { RemoveBudgetModalComponent } from '@app/dashboard/components/remove-budget-modal/remove-budget-modal.component';
 
-type TModalComponent = ExpenseModalComponent | IncomeModalComponent;
+type TModalComponent =
+  | ExpenseModalComponent
+  | IncomeModalComponent
+  | RemoveBudgetModalComponent;
 
 @Component({
   standalone: true,
@@ -41,6 +47,8 @@ type TModalComponent = ExpenseModalComponent | IncomeModalComponent;
 export class HeaderComponent implements OnInit {
   @Input() user: UserState | undefined | null;
 
+  demoMode$: Observable<boolean | undefined> | undefined;
+
   currDate: Date = new Date();
 
   isTablet$: Observable<boolean> | undefined;
@@ -60,10 +68,13 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     private breakpointObserver: BreakpointObserver,
-    private matDialog: MatDialog
+    private matDialog: MatDialog,
+    private store: Store
   ) {}
 
   ngOnInit(): void {
+    this.demoMode$ = this.store.select(selectBudgetMode);
+
     this.isTablet$ = this.breakpointObserver
       .observe(this.breakpoints.tablet)
       .pipe(
@@ -101,6 +112,17 @@ export class HeaderComponent implements OnInit {
     if (userData) {
       this.dialogRef = this.matDialog.open(IncomeModalComponent, {
         data: { ...userData },
+        panelClass: this.transformDialog ? this.panelClass : '',
+      });
+    }
+  }
+
+  openRemoveBudgetDialog(): void {
+    const userData = this.getUserData();
+
+    if (userData) {
+      this.dialogRef = this.matDialog.open(RemoveBudgetModalComponent, {
+        data: { budgetId: userData.budgetId },
         panelClass: this.transformDialog ? this.panelClass : '',
       });
     }

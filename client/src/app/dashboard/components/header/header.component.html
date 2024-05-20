@@ -10,6 +10,16 @@
   </div>
 
   <div class="finance" *ngIf="user?.budgetId">
+    <ng-container *ngIf="demoMode$ | async">
+      <button
+        mat-icon-button
+        color="ptimary"
+        (click)="openRemoveBudgetDialog()"
+      >
+        <mat-icon svgIcon="notification"></mat-icon>
+      </button>
+    </ng-container>
+
     <button
       mat-icon-button
       class="finance__button"

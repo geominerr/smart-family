@@ -31,4 +31,5 @@ export interface Budget {
   goal: number;
   Expenses: Expense[];
   Incomes: Income[];
+  demo?: boolean;
 }
