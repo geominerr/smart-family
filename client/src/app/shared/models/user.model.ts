@@ -3,8 +3,8 @@ export interface User {
   email: string;
   username: string;
   version: number;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
   budgetId: string;
 }
 
