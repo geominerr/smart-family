@@ -10,6 +10,7 @@ export const IncomeActions = createActionGroup({
   source: 'Income',
   events: {
     'Set All Income': props<{ income: Income[] }>(),
+    'Delete All Income': emptyProps(),
     'Create Income': props<{ dto: IncomeCreateDto }>(),
     'Create Income Success': props<Income>(),
     'Create Income Failure': props<{ error: unknown }>(),

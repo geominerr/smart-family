@@ -12,7 +12,7 @@ export const UserActions = createActionGroup({
     'Update User': props<{ id: string; dto: UserUpdateDto }>(),
     'Update User Success': props<User>(),
     'Update User Failure': props<{ error: unknown }>(),
-    'Update User BudgetId': props<{ budgetId: string }>(),
+    'Update User BudgetId': props<{ budgetId: string | undefined }>(),
     'Delete User': props<{ id: string }>(),
     'Delete User Success': emptyProps(),
     'Delete User Failure': props<{ error: unknown }>(),

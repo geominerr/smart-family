@@ -13,3 +13,8 @@ export const selectBudgetId = createSelector(
   selectBudgetState,
   (state: BudgetState) => state.id
 );
+
+export const selectBudgetMode = createSelector(
+  selectBudgetState,
+  (state: BudgetState) => state.demo
+);

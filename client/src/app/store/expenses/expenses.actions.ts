@@ -10,6 +10,7 @@ export const ExpensesActions = createActionGroup({
   source: 'Expenses',
   events: {
     'Set All Expenses': props<{ expenses: Expense[] }>(),
+    'Delete All Expenses': emptyProps(),
     'Create Expense': props<{ dto: ExpenseCreateDto }>(),
     'Create Expense Success': props<Expense>(),
     'Create Expense Failure': props<{ error: unknown }>(),

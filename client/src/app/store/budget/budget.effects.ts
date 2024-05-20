@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { switchMap, catchError, of, mergeMap } from 'rxjs';
+import { switchMap, catchError, of, mergeMap, tap } from 'rxjs';
 
 import { BudgetService } from '@app/dashboard/services/budget.service';
 import { BudgetActions } from './budget.actions';
@@ -12,7 +13,8 @@ import { IncomeActions } from '../income/income.actions';
 export class BudgetEffects {
   constructor(
     private actions$: Actions,
-    private budgetService: BudgetService
+    private budgetService: BudgetService,
+    private router: Router
   ) {}
 
   createDemoBudget$ = createEffect(() => {
@@ -76,7 +78,13 @@ export class BudgetEffects {
       ofType(BudgetActions.deleteBudget),
       switchMap((action) =>
         this.budgetService.deleteBudget(action.id).pipe(
-          switchMap(() => of(BudgetActions.deleteBudgetSuccess())),
+          mergeMap(() => [
+            BudgetActions.deleteBudgetSuccess(),
+            ExpensesActions.deleteAllExpenses(),
+            IncomeActions.deleteAllIncome(),
+            UserActions.updateUserBudgetId({ budgetId: undefined }),
+          ]),
+          tap(() => this.router.navigate(['/'])),
           catchError((err) => of(BudgetActions.deleteBudgetFailure(err)))
         )
       )

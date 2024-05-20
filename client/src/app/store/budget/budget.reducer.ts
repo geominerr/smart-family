@@ -10,6 +10,7 @@ export interface BudgetState {
   name: string | undefined;
   currency: CurrencyType | undefined;
   goal: number | undefined;
+  demo: boolean | undefined;
 }
 
 export const initialState: BudgetState = {
@@ -17,6 +18,7 @@ export const initialState: BudgetState = {
   name: undefined,
   currency: undefined,
   goal: undefined,
+  demo: undefined,
 };
 
 export const budgetReducer = createReducer(
@@ -28,6 +30,7 @@ export const budgetReducer = createReducer(
       name: budget.name,
       currency: budget.currency,
       goal: budget.goal,
+      demo: budget.demo,
     };
   }),
   on(BudgetActions.getBudgetSuccess, (state, budget): BudgetState => {
@@ -37,6 +40,17 @@ export const budgetReducer = createReducer(
       name: budget.name,
       currency: budget.currency,
       goal: budget.goal,
+      demo: budget.demo,
+    };
+  }),
+  on(BudgetActions.deleteBudgetSuccess, (state): BudgetState => {
+    return {
+      ...state,
+      id: undefined,
+      name: undefined,
+      currency: undefined,
+      goal: undefined,
+      demo: undefined,
     };
   })
 );

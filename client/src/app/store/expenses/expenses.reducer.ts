@@ -28,5 +28,12 @@ export const expensesReducer = createReducer(
       ...state,
       expenses: [expense, ...state.expenses],
     })
+  ),
+  on(
+    ExpensesActions.deleteAllExpenses,
+    (state): ExpensesState => ({
+      ...state,
+      expenses: [],
+    })
   )
 );

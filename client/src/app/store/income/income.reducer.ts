@@ -25,5 +25,12 @@ export const incomeReducer = createReducer(
       ...state,
       income: [income, ...state.income],
     })
+  ),
+  on(
+    IncomeActions.deleteAllIncome,
+    (state): IncomeState => ({
+      ...state,
+      income: [],
+    })
   )
 );
