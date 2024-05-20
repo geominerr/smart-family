@@ -79,8 +79,7 @@
 
     &__list {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      justify-content: center;
+      grid-template-columns: repeat(auto-fit, minMax(220px, 1fr));
       overflow-y: auto;
       gap: 1px;
       width: 100%;
@@ -97,14 +96,6 @@
       width: 100%;
 
       outline: 1px solid rgb(243, 243, 243);
-    }
-  }
-
-  &--desktop {
-    .expenses {
-      &__list {
-        grid-template-columns: repeat(2, 1fr);
-      }
     }
   }
 
@@ -133,12 +124,6 @@
 
     .transactions__list {
       height: 280px;
-    }
-
-    .expenses {
-      &__list {
-        grid-template-columns: repeat(2, 1fr);
-      }
     }
   }
 

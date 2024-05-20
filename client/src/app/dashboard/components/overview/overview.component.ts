@@ -53,14 +53,11 @@ export class OverviewComponent implements OnInit {
 
   categorySource$: Observable<CategoryData[]> | undefined;
 
-  isDesktop$: Observable<boolean> | undefined;
-
   isTablet$: Observable<boolean> | undefined;
 
   isMobile$: Observable<boolean> | undefined;
 
   breakpoints = {
-    desktop: '(max-width: 1220px)',
     tablet: '(max-width: 770px)',
     mobile: '(max-width: 500px)',
   };
@@ -82,10 +79,6 @@ export class OverviewComponent implements OnInit {
     this.categorySource$ = this.store
       .select(selectLastMonthExpenses)
       .pipe(filter((source) => !!source?.length));
-
-    this.isDesktop$ = this.breakpointObserver
-      .observe(this.breakpoints.desktop)
-      .pipe(map((state) => state.matches));
 
     this.isTablet$ = this.breakpointObserver
       .observe(this.breakpoints.tablet)
