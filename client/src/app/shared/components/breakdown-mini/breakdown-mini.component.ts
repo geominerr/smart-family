@@ -50,6 +50,6 @@ export class BreakdownMiniComponent {
   }
 
   getMonthTrend(): boolean {
-    return this.data.currSum - this.data.prevSum <= 0;
+    return this.data.currSum > this.data.prevSum;
   }
 }

@@ -11,7 +11,7 @@
       </p>
       <p
         class="category__compare-value arrow-up"
-        [ngClass]="{ 'arrow-down': getMonthTrend() }"
+        [ngClass]="{ 'arrow-down': !getMonthTrend() }"
       >
         {{ getDiffInPercent() }}
       </p>
