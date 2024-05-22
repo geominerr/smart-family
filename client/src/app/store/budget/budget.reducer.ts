@@ -43,14 +43,20 @@ export const budgetReducer = createReducer(
       demo: budget.demo,
     };
   }),
+  on(BudgetActions.updateBudgetSuccess, (state, budget): BudgetState => {
+    return {
+      ...state,
+      id: budget.id,
+      name: budget.name,
+      currency: budget.currency,
+      goal: budget.goal,
+      demo: budget.demo,
+    };
+  }),
   on(BudgetActions.deleteBudgetSuccess, (state): BudgetState => {
     return {
       ...state,
-      id: undefined,
-      name: undefined,
-      currency: undefined,
-      goal: undefined,
-      demo: undefined,
+      ...initialState,
     };
   })
 );

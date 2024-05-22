@@ -8,6 +8,9 @@ export interface UserState {
   username: string | undefined;
   email: string | undefined;
   budgetId: string | undefined;
+  version: number | undefined;
+  createdAt: string | undefined;
+  updatedAt: string | undefined;
 }
 
 export const initialState: UserState = {
@@ -15,6 +18,9 @@ export const initialState: UserState = {
   username: undefined,
   email: undefined,
   budgetId: undefined,
+  version: undefined,
+  createdAt: undefined,
+  updatedAt: undefined,
 };
 
 export const userReducer = createReducer(
@@ -22,28 +28,21 @@ export const userReducer = createReducer(
   on(UserActions.getUserSuccess, (state, user): UserState => {
     return {
       ...state,
-      id: user.id,
-      username: user.username,
-      email: user.email,
-      budgetId: user?.budgetId,
+      ...user,
     };
   }),
   on(
     UserActions.updateUserSuccess,
     (state, user): UserState => ({
       ...state,
-      id: user.id,
-      username: user.username,
-      email: user.email,
+      ...user,
     })
   ),
   on(
     UserActions.deleteUserSuccess,
     (state): UserState => ({
       ...state,
-      id: undefined,
-      username: undefined,
-      email: undefined,
+      ...initialState,
     })
   ),
   on(

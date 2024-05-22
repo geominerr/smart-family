@@ -8,3 +8,8 @@ export const selectUser = createSelector(
   selectUserState,
   (state: UserState) => state
 );
+
+export const selectUserId = createSelector(
+  selectUserState,
+  (state: UserState) => state.id
+);

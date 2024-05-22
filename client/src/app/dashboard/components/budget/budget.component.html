@@ -1,0 +1,93 @@
+<ng-container *ngIf="budget$ | async as budget">
+  <ng-container *ngIf="budget.id">
+    <div class="form-wrapper">
+      <form [formGroup]="form" class="form">
+        <mat-form-field
+          class="form__field"
+          floatLabel="always"
+          appearance="outline"
+          hideRequiredMarker
+        >
+          <mat-label [ngClass]="{ 'mat-label--disabled': !editMode }"
+            >Budget Name</mat-label
+          >
+          <input
+            [ngClass]="{ 'mat-input--disabled': !editMode }"
+            matInput
+            type="text"
+            placeholder="Budget Name"
+            formControlName="name"
+          />
+          <mat-error>{{ getErrorMessage('name') }}</mat-error>
+        </mat-form-field>
+        <mat-form-field
+          class="form__field"
+          floatLabel="always"
+          appearance="outline"
+          hideRequiredMarker
+        >
+          <mat-label [ngClass]="{ 'mat-label--disabled': !editMode }">
+            Goal
+          </mat-label>
+          <input
+            matInput
+            [ngClass]="{ 'mat-input--disabled': !editMode }"
+            type="number"
+            [min]="minGoalValue"
+            [max]="maxGoalValue"
+            placeholder="1000000"
+            formControlName="goal"
+          />
+          <mat-error>{{ getErrorMessage('goal') }}</mat-error>
+        </mat-form-field>
+        <mat-form-field
+          class="form__field"
+          floatLabel="always"
+          appearance="outline"
+          hideRequiredMarker
+        >
+          <mat-label class="mat-label--disabled"> Currensy </mat-label>
+          <input
+            class="mat-input--disabled"
+            matInput
+            type="text"
+            formControlName="currency"
+          />
+        </mat-form-field>
+        <ng-container *ngIf="editMode">
+          <div class="form__buttons">
+            <button
+              class="form__button form__button--cancel"
+              mat-flat-button
+              color="accent"
+              (click)="disableEditMode()"
+            >
+              Cancel
+            </button>
+            <button
+              class="form__button"
+              mat-flat-button
+              color="primary"
+              [disabled]="form.invalid && submitted"
+              (click)="submit(budget.id)"
+            >
+              Save
+            </button>
+          </div>
+        </ng-container>
+      </form>
+      <ng-container *ngIf="!editMode">
+        <div class="form__buttons">
+          <button
+            class="form__button"
+            mat-flat-button
+            color="primary"
+            (click)="enableEditMode()"
+          >
+            Edit
+          </button>
+        </div>
+      </ng-container>
+    </div>
+  </ng-container>
+</ng-container>

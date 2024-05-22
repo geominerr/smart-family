@@ -1,0 +1,28 @@
+<div class="container">
+  <div class="wrapper">
+    <div class="tabs">
+      <ng-container *ngFor="let tab of tabs">
+        <button
+          mat-button
+          class="button"
+          [color]="tabsState[tab] ? 'primary' : 'basic'"
+          [ngClass]="{ 'button--active': tabsState[tab] }"
+          (click)="toggleTab(tab)"
+        >
+          {{ tab | titlecase }}
+        </button>
+      </ng-container>
+    </div>
+    <div class="tab-wrapper">
+      <ng-container *ngIf="tabsState.profile">
+        <app-profile class="tab"></app-profile>
+      </ng-container>
+      <ng-container *ngIf="tabsState.security">
+        <app-change-password class="tab"></app-change-password>
+      </ng-container>
+      <ng-container *ngIf="tabsState.budget">
+        <app-budget class="tab"></app-budget
+      ></ng-container>
+    </div>
+  </div>
+</div>
