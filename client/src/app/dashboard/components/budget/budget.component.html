@@ -75,19 +75,20 @@
             </button>
           </div>
         </ng-container>
+
+        <ng-container *ngIf="!editMode">
+          <div class="form__buttons">
+            <button
+              class="form__button"
+              mat-flat-button
+              color="primary"
+              (click)="enableEditMode()"
+            >
+              Edit
+            </button>
+          </div>
+        </ng-container>
       </form>
-      <ng-container *ngIf="!editMode">
-        <div class="form__buttons">
-          <button
-            class="form__button"
-            mat-flat-button
-            color="primary"
-            (click)="enableEditMode()"
-          >
-            Edit
-          </button>
-        </div>
-      </ng-container>
     </div>
   </ng-container>
 </ng-container>

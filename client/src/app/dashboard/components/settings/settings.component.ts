@@ -35,9 +35,9 @@ type TButton = 'profile' | 'security' | 'budget';
 })
 export class SettingsComponent {
   tabsState: Record<TButton, boolean> = {
-    profile: false,
+    profile: true,
     security: false,
-    budget: true,
+    budget: false,
   };
 
   tabs: TButton[] = Object.keys(this.tabsState) as TButton[];
