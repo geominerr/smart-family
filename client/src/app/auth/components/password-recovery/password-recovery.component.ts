@@ -15,8 +15,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
+import { emailValidator } from '@app/shared/validators/email.validator';
 import { AuthService } from '../../services/auth.service';
-import { emailValidator } from '../../validators/email.validator';
 import { IResetDto } from '../../models/auth.model';
 
 @Component({

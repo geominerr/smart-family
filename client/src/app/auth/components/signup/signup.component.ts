@@ -24,12 +24,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { environment } from '@root/environments/environment';
 
+import { SvgIconsModule } from '@app/shared/modules/svg-icons.module';
+import { emailValidator } from '@app/shared/validators/email.validator';
+import { passwordValidator } from '@app/shared/validators/password.validator';
+import { usernameValidator } from '@app/shared/validators/username.validator';
+
 import { AuthService } from '../../services/auth.service';
 import { TermsPopupComponent } from '../terms-popup/terms-popup.component';
-import { SvgIconsModule } from '../../../shared/modules/svg-icons.module';
-import { emailValidator } from '../../validators/email.validator';
-import { passwordValidator } from '../../validators/password.validator';
-import { usernameValidator } from '../../validators/username.validator';
 import { ISignupDto } from '../../models/auth.model';
 
 @Component({
