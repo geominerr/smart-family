@@ -5,7 +5,9 @@ import { By } from '@angular/platform-browser';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
 
+import { provideMockStore } from '@ngrx/store/testing';
 import { UserState } from '@app/store/user/user.reducer';
+
 import { HeaderComponent } from './header.component';
 
 describe('HeaderComponent', () => {
@@ -18,6 +20,9 @@ describe('HeaderComponent', () => {
     username: 'username',
     email: 'mail@mail.com',
     budgetId: 'budgetId',
+    version: undefined,
+    createdAt: undefined,
+    updatedAt: undefined,
   };
 
   beforeEach(() => {
@@ -25,6 +30,7 @@ describe('HeaderComponent', () => {
       imports: [HeaderComponent, MatIconTestingModule],
       providers: [
         provideHttpClient(),
+        provideMockStore(),
         { provide: MatDialog, useValue: { open: () => {} } },
       ],
     });
