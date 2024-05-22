@@ -3,13 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AuthGuard } from '@app/auth/guards/auth.guard';
 
-import { OverviewComponent } from './components/overview/overview.component';
-import { TransactionsComponent } from './components/transactions/transactions.component';
-import { IncomeComponent } from './components/income/income.component';
-import { ExpensesComponent } from './components/expenses/expenses.component';
-import { SettingsComponent } from './components/settings/settings.component';
-
-const routes: Routes = [
+export const DASHBOARD_ROUTES: Routes = [
   {
     path: 'dashboard',
     loadComponent: () =>
@@ -25,28 +19,43 @@ const routes: Routes = [
       },
       {
         path: 'overview',
-        component: OverviewComponent,
+        loadComponent: () =>
+          import('./components/overview/overview.component').then(
+            (m) => m.OverviewComponent
+          ),
         canActivate: [AuthGuard],
       },
 
       {
         path: 'transactions',
-        component: TransactionsComponent,
+        loadComponent: () =>
+          import('./components/transactions/transactions.component').then(
+            (m) => m.TransactionsComponent
+          ),
         canActivate: [AuthGuard],
       },
       {
         path: 'income',
-        component: IncomeComponent,
+        loadComponent: () =>
+          import('./components/income/income.component').then(
+            (m) => m.IncomeComponent
+          ),
         canActivate: [AuthGuard],
       },
       {
         path: 'expenses',
-        component: ExpensesComponent,
+        loadComponent: () =>
+          import('./components/expenses/expenses.component').then(
+            (m) => m.ExpensesComponent
+          ),
         canActivate: [AuthGuard],
       },
       {
         path: 'settings',
-        component: SettingsComponent,
+        loadComponent: () =>
+          import('./components/settings/settings.component').then(
+            (m) => m.SettingsComponent
+          ),
         canActivate: [AuthGuard],
       },
     ],
@@ -54,7 +63,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(DASHBOARD_ROUTES)],
   exports: [RouterModule],
 })
 export class DashboardRoutingModule {}
