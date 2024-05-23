@@ -28,3 +28,5 @@ export interface Income extends IncomeCreateDto {
 export interface IncomeView extends Income {
   type: string;
 }
+
+export type TIncomeActions = 'createIncome';

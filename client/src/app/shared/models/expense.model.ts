@@ -36,3 +36,5 @@ export interface Expense extends ExpenseCreateDto {
 export interface ExpenseView extends Expense {
   type: string;
 }
+
+export type TExpensesActions = 'createExpenses';

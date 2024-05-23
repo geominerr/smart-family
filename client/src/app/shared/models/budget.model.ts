@@ -33,3 +33,5 @@ export interface Budget {
   Incomes: Income[];
   demo?: boolean;
 }
+
+export type TBudgetActions = 'createBudget' | 'updateBudget' | 'deleteBudget';

@@ -12,3 +12,5 @@ export interface UserUpdateDto {
   oldPassword: string;
   newPassword: string;
 }
+
+export type TUserActions = 'updateUserPassword';
