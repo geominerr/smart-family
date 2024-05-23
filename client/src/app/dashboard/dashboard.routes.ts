@@ -1,9 +1,7 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-
+import { Routes } from '@angular/router';
 import { AuthGuard } from '@app/auth/guards/auth.guard';
 
-export const DASHBOARD_ROUTES: Routes = [
+export const dashboardRoutes: Routes = [
   {
     path: 'dashboard',
     loadComponent: () =>
@@ -61,9 +59,3 @@ export const DASHBOARD_ROUTES: Routes = [
     ],
   },
 ];
-
-@NgModule({
-  imports: [RouterModule.forRoot(DASHBOARD_ROUTES)],
-  exports: [RouterModule],
-})
-export class DashboardRoutingModule {}
