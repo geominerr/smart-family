@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
 import { BudgetRepository } from './repository/budget.repository';
+import { CreateDemoBudgetDto } from './dto/create-demo-budget.dto';
 import { CreateBudgetDto } from './dto/create-budget.dto';
 import { UpdateBudgetDto } from './dto/update-budget.dto';
 import {
@@ -11,6 +12,14 @@ import {
 @Injectable()
 export class BudgetService {
   constructor(private budgetRepository: BudgetRepository) {}
+
+  async createDemoBudget(dto: CreateDemoBudgetDto, sub: string) {
+    if (dto.userId !== sub) {
+      throw new InsufficientPermissionsException();
+    }
+
+    return await this.budgetRepository.createDemoBudget(dto);
+  }
 
   async create(dto: CreateBudgetDto, sub: string) {
     if (dto.userId !== sub) {
