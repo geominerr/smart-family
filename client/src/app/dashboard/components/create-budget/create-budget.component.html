@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="greetings">
+    <p>
+      Welcome, <b class="colored">{{ user?.username }}</b
+      >!
+    </p>
+    <p>
+      <b class="colored">SmartFamily</b> is here to help you manage your
+      finances efficiently. To experience the full functionality of our app,
+      feel free to explore our demo budget.
+    </p>
+  </div>
+  <div class="button-group">
+    <button
+      mat-flat-button
+      color="primary"
+      class="button"
+      (click)="createDemoBudget()"
+    >
+      Use Demo Budget
+    </button>
+
+    <button
+      mat-flat-button
+      color="primary"
+      class="button"
+      (click)="createBudget()"
+    >
+      Create Budget
+    </button>
+  </div>
+</div>

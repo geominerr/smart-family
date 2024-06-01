@@ -1,0 +1,55 @@
+.mat-elevation-z8 {
+  width: 100%;
+  padding: 0 10px;
+
+  box-shadow: 5px 5px 5px rgba(79, 79, 79, 0.4);
+}
+
+.cell-category {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
+  &__icon {
+    transform: scale(0.75);
+  }
+
+  &__content {
+    font-weight: 500;
+  }
+}
+
+.cell-amount {
+  &--income {
+    &::after {
+      content: '▲';
+      color: #299d91;
+    }
+  }
+
+  &--expense {
+    &::after {
+      content: '▼';
+      color: #c53351;
+    }
+  }
+}
+
+.mat-mdc-row .mat-mdc-cell {
+  border-bottom: 1px solid rgba(78, 78, 78, 0.1);
+}
+
+.mat-column {
+  &-amount {
+    text-align: end;
+    font-weight: 600;
+  }
+}
+
+:host ::ng-deep th:last-child .mat-sort-header-container {
+  justify-content: end;
+}
+
+:host ::ng-deep .mat-sort-header-container {
+  font-weight: 600;
+}

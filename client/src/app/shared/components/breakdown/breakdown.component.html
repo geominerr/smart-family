@@ -1,0 +1,53 @@
+<div class="category">
+  <div class="category__header">
+    <div class="category__header-icon">
+      <button
+        mat-mini-fab
+        [color]="!hiddenScroll ? 'primary' : 'basic'"
+        class="mat-icon-button"
+        (click)="toggleHiddenScroll()"
+      >
+        <mat-icon>{{ getIconName(data.category) }}</mat-icon>
+      </button>
+    </div>
+
+    <div class="category__description">
+      <p class="category__label">{{ data.category | titlecase }}</p>
+      <p class="category__amount">
+        {{ converteToCoins(data.currSum) | currency : currency }}
+      </p>
+    </div>
+
+    <div class="category__compare">
+      <p
+        class="category__compare-value arrow-up"
+        [ngClass]="{ 'arrow-down': !getMonthTrend() }"
+      >
+        {{ getDiffInPercent() }}
+      </p>
+      <p class="category__compare-label">Compare to last month</p>
+    </div>
+  </div>
+
+  <div
+    #categoryTransactions
+    class="category__transactions"
+    [ngClass]="{ 'category__transactions--hidden': hiddenScroll }"
+  >
+    <ul class="list">
+      <ng-container *ngFor="let transactions of data.transactions">
+        <li class="list-item">
+          <div class="list-item__description">
+            {{ transactions.description }}
+          </div>
+          <div class="list-item__right-side">
+            <p class="list-item__price">
+              {{ converteToCoins(transactions.amount) | currency : currency }}
+            </p>
+            <p class="list-item__date">{{ transactions.date | date }}</p>
+          </div>
+        </li>
+      </ng-container>
+    </ul>
+  </div>
+</div>

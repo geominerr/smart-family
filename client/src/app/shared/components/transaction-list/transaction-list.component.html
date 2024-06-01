@@ -1,0 +1,24 @@
+<div class="transaction">
+  <app-tabs class="transaction__tabs" (changeTabEvent)="changeTab($event)">
+  </app-tabs>
+  <mat-list class="list">
+    <ng-container *ngIf="dataset">
+      <ng-container *ngFor="let transaction of dataset">
+        <mat-list-item class="list__item">
+          <mat-icon matListItemIcon class="list__item-icon">
+            {{ getIconName(transaction.category) }}</mat-icon
+          >
+          <div matListItemAvatar class="list__item-category-name">
+            {{ transaction.category | titlecase }}
+          </div>
+          <div matListItemTitle class="list__item-title">
+            {{ transaction.amount | currency : currencyType }}
+          </div>
+          <div matListItemLine class="list__item-line">
+            {{ transaction.date | date }}
+          </div>
+        </mat-list-item>
+      </ng-container>
+    </ng-container>
+  </mat-list>
+</div>

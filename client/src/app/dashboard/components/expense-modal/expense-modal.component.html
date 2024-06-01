@@ -1,0 +1,68 @@
+<div class="container">
+  <h2 mat-dialog-title>Expense</h2>
+  <form class="form" [formGroup]="form">
+    <mat-form-field
+      class="form__field"
+      appearance="outline"
+      floatLabel="always"
+      hideRequiredMarker
+    >
+      <mat-label class="mat-label">Amount</mat-label>
+      <input
+        matInput
+        type="number"
+        [min]="minAmountValue"
+        [max]="maxAmountValue"
+        placeholder="Enter amount"
+        formControlName="amount"
+      />
+      <mat-error class="mat-error">{{ getErrorMessage('amount') }}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field
+      class="form__field"
+      appearance="outline"
+      floatLabel="always"
+      hideRequiredMarker
+    >
+      <mat-label class="mat-label">Category</mat-label>
+      <mat-select formControlName="category">
+        <ng-container *ngFor="let category of categories">
+          <mat-option [value]="category"
+            ><mat-icon>{{ getIconName(category) }}</mat-icon
+            >{{ category | titlecase }}</mat-option
+          >
+        </ng-container>
+      </mat-select>
+      <mat-error class="mat-error">{{ getErrorMessage('category') }}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field
+      class="form__field"
+      appearance="outline"
+      floatLabel="always"
+      hideRequiredMarker
+    >
+      <mat-label class="mat-label">Description</mat-label>
+      <input
+        matInput
+        type="text"
+        placeholder="Enter description"
+        formControlName="description"
+      />
+      <mat-error class="mat-error">{{
+        getErrorMessage('description')
+      }}</mat-error>
+    </mat-form-field>
+
+    <button
+      mat-flat-button
+      color="primary"
+      class="form__submit-button"
+      (click)="submit()"
+      [disabled]="form.invalid && submitted"
+    >
+      Add Expense
+    </button>
+  </form>
+</div>

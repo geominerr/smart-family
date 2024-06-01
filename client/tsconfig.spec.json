@@ -5,9 +5,10 @@
     "outDir": "./out-tsc/spec",
     "types": [
       "jest",
-      "node"
-    ]
+    ],
+    "target": "ES2016",
   },
+  "esModuleInterop": true,
   "emitDecoratorMetadata": true,
   "include": [
     "src/**/*.spec.ts",

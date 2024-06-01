@@ -1,0 +1,49 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+
+  width: 100%;
+}
+
+.greetings {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  box-sizing: border-box;
+  padding: 50px 10px;
+
+  width: 100%;
+  max-width: 500px;
+
+  text-align: center;
+  color: rgb(66, 66, 66);
+  font-size: 2rem;
+  line-height: 1.5;
+}
+
+.colored {
+  color: #299d91;
+}
+
+.button-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+
+  width: 100%;
+  max-width: 300px;
+}
+
+.button {
+  width: 100%;
+  height: 40px;
+}
+
+::ng-deep .dialog-transform {
+  transform: translateX(140px);
+}

@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { AsyncPipe, NgFor, NgIf, NgClass } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
@@ -23,10 +23,10 @@ import { navLinks } from './nav-link.data';
   templateUrl: './side-navbar.component.html',
   styleUrls: ['./side-navbar.component.scss'],
   imports: [
-    AsyncPipe,
     NgIf,
     NgFor,
     NgClass,
+    AsyncPipe,
     RouterLink,
     RouterLinkActive,
     MatSidenavModule,
@@ -43,6 +43,8 @@ export class SideNavbarComponent implements OnInit {
   navLinks: INavLink[] = navLinks;
 
   tabletBreakpoint: string = '(max-width: 960px)';
+
+  mobileBreakpoint: string = '(max-width: 600px)';
 
   isTablet$!: Observable<boolean>;
 
@@ -66,7 +68,7 @@ export class SideNavbarComponent implements OnInit {
       );
 
     this.isMobile$ = this.breakpointObserver
-      .observe(Breakpoints.XSmall)
+      .observe(this.mobileBreakpoint)
       .pipe(map((state) => state.matches));
   }
 

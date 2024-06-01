@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { provideMockStore } from '@ngrx/store/testing';
 import { IncomeComponent } from './income.component';
 
 describe('IncomeComponent', () => {
@@ -8,7 +8,8 @@ describe('IncomeComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [IncomeComponent]
+      imports: [IncomeComponent],
+      providers: [provideMockStore()],
     });
     fixture = TestBed.createComponent(IncomeComponent);
     component = fixture.componentInstance;
