@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  OnDestroy,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink, RouterModule } from '@angular/router';
 import { AsyncPipe, NgClass } from '@angular/common';
@@ -20,8 +15,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
+import { emailValidator } from '@app/shared/validators/email.validator';
 import { AuthService } from '../../services/auth.service';
-import { emailValidator } from '../../validators/email.validator';
 import { IResetDto } from '../../models/auth.model';
 
 @Component({
@@ -51,13 +46,12 @@ export class PasswordRecoveryComponent implements OnDestroy {
   attempedSubmit: boolean = false;
 
   constructor(
-    private readonly cdr: ChangeDetectorRef,
     private readonly authService: AuthService,
     private readonly fb: FormBuilder,
     private readonly router: Router
   ) {
     this.passwordResetForm = this.fb.group({
-      email: ['as@as.d', [emailValidator]],
+      email: ['', [emailValidator]],
     });
   }
 

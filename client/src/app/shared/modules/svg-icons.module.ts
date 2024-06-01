@@ -19,6 +19,7 @@ export class SvgIconsModule {
     transaction: 'assets/icons/transaction.svg',
     'trend-up': 'assets/icons/trend-up.svg',
     'trend-down': 'assets/icons/trend-down.svg',
+    notification: 'assets/icons/notification.svg',
   };
 
   constructor(

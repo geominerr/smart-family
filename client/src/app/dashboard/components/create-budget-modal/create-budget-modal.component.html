@@ -1,0 +1,63 @@
+<div class="container">
+  <h2 mat-dialog-title>Create budget</h2>
+  <form class="form" [formGroup]="form">
+    <mat-form-field
+      class="form__field"
+      appearance="outline"
+      floatLabel="always"
+      hideRequiredMarker
+    >
+      <mat-label class="mat-label">Budget name</mat-label>
+      <input
+        matInput
+        type="text"
+        placeholder="My new budget"
+        formControlName="name"
+      />
+      <mat-error class="mat-error">{{ getErrorMessage('name') }}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field
+      class="form__field"
+      appearance="outline"
+      floatLabel="always"
+      hideRequiredMarker
+    >
+      <mat-label class="mat-label">Currency</mat-label>
+      <mat-select formControlName="currency">
+        <ng-container *ngFor="let option of currencyType">
+          <mat-option [value]="option">{{ option }}</mat-option>
+        </ng-container>
+      </mat-select>
+      <mat-error class="mat-error">{{ getErrorMessage('currency') }}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field
+      class="form__field"
+      appearance="outline"
+      floatLabel="always"
+      hideRequiredMarker
+    >
+      <mat-label class="mat-label">Goal</mat-label>
+      <input
+        matInput
+        type="number"
+        [min]="minGoalValue"
+        [max]="maxGoalValue"
+        placeholder="10000"
+        formControlName="goal"
+      />
+      <mat-error class="mat-error">{{ getErrorMessage('goal') }}</mat-error>
+    </mat-form-field>
+
+    <button
+      mat-flat-button
+      color="primary"
+      class="form__submit-button"
+      (click)="submit()"
+      [disabled]="form.invalid && submitted"
+    >
+      Create
+    </button>
+  </form>
+</div>

@@ -1,0 +1,13 @@
+<div class="tabs">
+  <ng-container *ngFor="let tab of tabsButton">
+    <button
+      mat-button
+      class="button"
+      [color]="tabsState[tab] ? 'primary' : 'basic'"
+      [ngClass]="{ 'button--active': tabsState[tab] }"
+      (click)="toggleTab(tab)"
+    >
+      {{ tab | titlecase }}
+    </button>
+  </ng-container>
+</div>

@@ -1,1 +1,61 @@
-<p>overview works!</p>
+<div
+  class="overview"
+  [ngClass]="{
+    'overview--tablet': isTablet$ | async,
+    'overview--mobile': isMobile$ | async
+  }"
+>
+  <ng-container *ngIf="user$ | async as user">
+    <ng-container *ngIf="user?.budgetId; else createBudget">
+      <div class="overview__layout">
+        <div class="transactions">
+          <div class="transactions__header">
+            <h3 class="overview__subtitle">Recent transactions</h3>
+            <a
+              mat-button
+              color="primary"
+              class="transactions__link"
+              routerLink="../transactions"
+              >view all ></a
+            >
+          </div>
+          <div class="transactions__list">
+            <app-transaction-list
+              [dataListSource]="listSource$ | async"
+            ></app-transaction-list>
+          </div>
+        </div>
+
+        <div class="expenses">
+          <div class="expenses__chart">
+            <h3 class="overview__subtitle">Statistics</h3>
+            <app-chart-bar
+              class="expenses__chart-canvas"
+              [dataSource]="chartSourse$ | async"
+            ></app-chart-bar>
+          </div>
+
+          <ng-container *ngIf="categorySource$ | async as categorySource">
+            <div class="expenses__breakdown">
+              <h3 class="overview__subtitle">Expenses Breakdown</h3>
+              <div class="expenses__list">
+                <ng-container *ngFor="let category of categorySource">
+                  <app-mini-breakdown
+                    class="expenses__list-item"
+                    [data]="category"
+                  ></app-mini-breakdown>
+                </ng-container>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-template #createBudget>
+      <ng-container *ngIf="user?.id">
+        <app-create-budget [user]="user"></app-create-budget>
+      </ng-container>
+    </ng-template>
+  </ng-container>
+</div>

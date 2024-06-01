@@ -1,0 +1,74 @@
+<ng-container *ngIf="dataSource">
+  <table mat-table matSort [dataSource]="dataSource" class="mat-elevation-z8">
+    <tr
+      mat-header-row
+      *matHeaderRowDef="getColumns(); sticky: stickyHeader"
+    ></tr>
+    <tr mat-row *matRowDef="let row; columns: getColumns()"></tr>
+
+    <ng-container matColumnDef="category">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+        sortActionDescription="Sort by category"
+      >
+        Category
+      </th>
+
+      <td mat-cell *matCellDef="let element">
+        <div class="cell-category">
+          <mat-icon class="cell-category__icon">
+            {{ getIconName(element.category) }}
+          </mat-icon>
+          <div class="cell-category__content">
+            {{ element.category | titlecase }}
+          </div>
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="description">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+        sortActionDescription="Sort by description"
+      >
+        Description
+      </th>
+      <td mat-cell *matCellDef="let element">{{ element?.description }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="date">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+        sortActionDescription="Sort by date"
+      >
+        Date
+      </th>
+      <td mat-cell *matCellDef="let element">{{ element.date | date }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="amount">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+        sortActionDescription="Sort by amount"
+      >
+        Amount
+      </th>
+      <td
+        mat-cell
+        *matCellDef="let element"
+        class="cell-amount cell-amount--income"
+        [ngClass]="{ 'cell-amount--expense': element?.type === 'expense' }"
+      >
+        {{ element.amount | currency : currencyType }}
+      </td>
+    </ng-container>
+  </table>
+</ng-container>

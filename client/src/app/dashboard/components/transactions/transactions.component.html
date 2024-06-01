@@ -1,1 +1,24 @@
-<p>transactions works!</p>
+<div class="transactions">
+  <h3 class="transactions__title">Recent transactions</h3>
+  <div class="table-wrapper">
+    <div class="transactions__control">
+      <div class="transactions__tabs">
+        <app-tabs (changeTabEvent)="changeTab($event)"></app-tabs>
+      </div>
+      <ng-container *ngIf="dataTableSource?.length">
+        <div class="transactions__select">
+          <app-select
+            class="select"
+            [dataSource]="dataTableSource"
+            (selectEvent)="changePeriod($event)"
+          ></app-select></div
+      ></ng-container>
+    </div>
+    <app-table
+      class="transactions__table"
+      [data]="dataset"
+      [currencyType]="(currency$ | async) || 'EUR'"
+    >
+    </app-table>
+  </div>
+</div>

@@ -14,22 +14,12 @@ export const navLinks = [
     routerLink: 'income',
     content: 'Income',
   },
-
   {
     icon: 'expenses',
     routerLink: 'expenses',
     content: 'Expenses',
   },
-  {
-    icon: 'bill',
-    routerLink: 'bills',
-    content: 'Bills',
-  },
-  {
-    icon: 'goal',
-    routerLink: 'goals',
-    content: 'Goals',
-  },
+
   {
     icon: 'settings',
     routerLink: 'settings',

@@ -7,10 +7,10 @@ export const setupSwagger = (app: INestApplication) => {
     .setDescription('The REST API description')
     .setVersion('0.0.1')
     .addServer(`/`)
-    .addCookieAuth()
+    .addCookieAuth('auth')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
 
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('doc', app, document);
 };

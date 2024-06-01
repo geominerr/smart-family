@@ -1,0 +1,26 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 25px;
+  width: 100%;
+
+  color: #616165;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 22px;
+
+  &__label {
+    margin: 0;
+    font-size: 1.6rem;
+  }
+
+  &__content {
+    margin-left: 25px;
+    font-size: 1.5rem;
+  }
+}

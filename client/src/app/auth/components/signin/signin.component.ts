@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink, RouterModule } from '@angular/router';
+import { AsyncPipe, NgClass } from '@angular/common';
 import {
   BehaviorSubject,
   Subscription,
@@ -9,7 +10,6 @@ import {
   tap,
   throwError,
 } from 'rxjs';
-import { AsyncPipe, NgClass } from '@angular/common';
 
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -18,10 +18,10 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { environment } from '@root/environments/environment';
 
-import { SvgIconsModule } from '../../../shared/modules/svg-icons.module';
+import { SvgIconsModule } from '@app/shared/modules/svg-icons.module';
+import { emailValidator } from '@app/shared/validators/email.validator';
+import { passwordValidator } from '@app/shared/validators/password.validator';
 import { AuthService } from '../../services/auth.service';
-import { emailValidator } from '../../validators/email.validator';
-import { passwordValidator } from '../../validators/password.validator';
 import { ILoginDto } from '../../models/auth.model';
 
 @Component({

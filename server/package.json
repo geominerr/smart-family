@@ -7,6 +7,8 @@
   "license": "UNLICENSED",
   "scripts": {
     "prisma:studio": "cross-env DB_HOST=localhost npx prisma studio",
+    "prisma:migrate": "cross-env DB_HOST=localhost npx prisma migrate dev",
+    "prisma:test:studio": "dotenv -e .env.test npx prisma studio",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
@@ -18,7 +20,9 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "docker:e2e:up": "docker-compose -f ./test/docker-compose.e2e.yaml --env-file .env.test up",
+    "docker:e2e:down": "docker-compose -f ./test/docker-compose.e2e.yaml --env-file .env.test down -v",
+    "test:e2e": "dotenv -e .env.test -- npx prisma migrate deploy && dotenv -e .env.test -- jest --config ./test/jest-e2e.json --verbose"
   },
   "dependencies": {
     "@nestjs/common": "^10.3.3",
@@ -58,11 +62,12 @@
     "@types/passport-google-oauth2": "^0.1.8",
     "@types/passport-jwt": "^4.0.1",
     "@types/passport-local": "^1.0.38",
-    "@types/supertest": "^2.0.11",
+    "@types/supertest": "^2.0.16",
     "@types/uuid": "^8.3.4",
     "@typescript-eslint/eslint-plugin": "^7.1.1",
     "@typescript-eslint/parser": "^7.1.1",
     "cross-env": "^7.0.3",
+    "dotenv-cli": "^7.4.2",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.1.3",
@@ -70,7 +75,7 @@
     "prettier": "^3.2.5",
     "prisma": "^5.11.0",
     "source-map-support": "^0.5.20",
-    "supertest": "^6.2.3",
+    "supertest": "^6.3.4",
     "ts-jest": "^29.1.0",
     "ts-loader": "^9.4.3",
     "ts-node": "^10.9.1",
@@ -92,6 +97,9 @@
       "**/*.(t|j)s"
     ],
     "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "moduleNameMapper": {
+      "^@app/(.*)$": "<rootDir>/$1"
+    }
   }
 }

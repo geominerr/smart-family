@@ -1,0 +1,10 @@
+<ng-container *ngIf="user$ | async as user">
+  <div class="container">
+    <ng-container *ngFor="let entry of getEntries(user)">
+      <div class="field">
+        <h4 class="field__label">{{ entry[0] | titlecase }}</h4>
+        <p class="field__content">{{ entry[1] }}</p>
+      </div>
+    </ng-container>
+  </div>
+</ng-container>

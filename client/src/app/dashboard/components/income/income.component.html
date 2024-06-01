@@ -1,1 +1,21 @@
-<p>income works!</p>
+<div class="income">
+  <ng-container *ngIf="chartSource$ | async as chartSource">
+    <div class="income__comparison">
+      <h3 class="income__subtitle">Income comparison</h3>
+      <app-chart-with-select
+        class="chart"
+        [chartSource]="chartSource"
+        [period]="'month'"
+      >
+      </app-chart-with-select>
+    </div>
+
+    <div class="income__breakdown">
+      <h3 class="income__subtitle">Income breakdown</h3>
+      <app-chart-pie-select
+        class="chart"
+        [chartSource]="chartSource"
+      ></app-chart-pie-select>
+    </div>
+  </ng-container>
+</div>
