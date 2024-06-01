@@ -66,12 +66,7 @@ export class AuthController {
   @SkipAuth()
   @Patch('logout')
   @ApiResponse({ status: 204, description: 'Remove cookies' })
-  @ApiResponse({ status: 400, description: 'Invalid refresh token' })
-  @ApiResponse({ status: 404, description: 'User not found' })
   async logout(@Req() req, @Res() res: Response) {
-    // TO DO CORRECT LOGOUT !!!
-    await this.authService.logout(req.cookies?.refresh);
-
     ['_auth-status', 'auth', 'refresh'].forEach((cookie) =>
       res.clearCookie(cookie),
     );
@@ -92,11 +87,12 @@ export class AuthController {
   @SkipAuth()
   @Post('refresh')
   @ApiResponse({
-    status: 200,
+    status: 201,
     description: 'Cookies Set: "auth" (required)',
     headers: { 'Set-cookie': { ...descriptionHeaderCookies['Set-Cookie-1'] } },
   })
   @ApiResponse({ status: 400, description: 'Invalid refresh token' })
+  @ApiResponse({ status: 404, description: 'User not found' })
   async updateTokens(@Req() req, @Res() res: Response) {
     const { accessToken, expireTime } = await this.authService.refreshTokens(
       req.cookies?.refresh,
