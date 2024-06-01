@@ -8,6 +8,7 @@ import * as bcrypt from 'bcrypt';
 import { IJwtConfig } from '@app/config/config.model';
 import { AuthRepository } from './repository/auth.repository';
 import { converteTimeToMilliseconds } from './utils/time-converter.util';
+import { AuthData } from './entities/auth.entity';
 import { User } from './entities/user.entity';
 import { GoogleAuthDto } from './dto/google-auth.dto';
 import { SignupDto } from './dto/signup.dto';
@@ -49,7 +50,7 @@ export class AuthService {
     return plainToInstance(User, user);
   }
 
-  async signin(dto: SigninDto) {
+  async signin(dto: SigninDto): Promise<AuthData> {
     const user = await this.authRepository.findUserByEmail(dto.email);
 
     if (!user) {
@@ -62,21 +63,18 @@ export class AuthService {
       throw new IncorrectPasswordException();
     }
 
-    return await this.getJwtTokens(user);
+    const tokens = await this.getJwtTokens(user);
+
+    return { userId: user.id, tokens: { ...tokens } };
   }
 
-  async logout(refreshToken: string) {
-    // TO DO
-    // Extend db add refreshToken field, add / remove operations
-
-    console.log('refreshToken', refreshToken);
-  }
-
-  async googleAuth(dto: GoogleAuthDto) {
+  async googleAuth(dto: GoogleAuthDto): Promise<AuthData> {
     let user = await this.authRepository.findUserByEmail(dto.email);
 
     if (user) {
-      return await this.getJwtTokens(user);
+      const tokens = await this.getJwtTokens(user);
+
+      return { userId: user.id, tokens: { ...tokens } };
     }
 
     const { email, username } = dto;
@@ -88,7 +86,9 @@ export class AuthService {
       username,
     });
 
-    return await this.getJwtTokens(user);
+    const tokens = await this.getJwtTokens(user);
+
+    return { userId: user.id, tokens: { ...tokens } };
   }
 
   async resetPassword(dto: PassResetDto) {
@@ -117,16 +117,7 @@ export class AuthService {
         throw new UserNotFoundException();
       }
 
-      const expirationTimeRefreshToken = decodedToken?.exp;
-      const totalTimeAccessToken = converteTimeToMilliseconds(
-        this.jwtConfig.TOKEN_EXPIRE_TIME,
-      );
-
-      if (expirationTimeRefreshToken > totalTimeAccessToken) {
-        return await this.getAccessToken(user);
-      }
-
-      return await this.getJwtTokens(user);
+      return await this.getAccessToken(user);
     } catch (err) {
       if (err instanceof HttpException) {
         throw err;

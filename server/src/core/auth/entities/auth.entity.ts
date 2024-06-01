@@ -5,3 +5,8 @@ export class Tokens {
   refreshToken?: string;
   refreshExpireTime?: number;
 }
+
+export class AuthData {
+  userId: string;
+  tokens: Tokens;
+}
