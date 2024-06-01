@@ -70,7 +70,6 @@ export class UserController {
     const { user } = req;
 
     await this.userService.removeUser(id, user);
-
     ['_auth-status', 'auth', 'refresh'].forEach((cookie) =>
       res.clearCookie(cookie),
     );

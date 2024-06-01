@@ -24,7 +24,7 @@ export class CreateExpenseDto {
   @ApiProperty({ type: Date, example: '2022-04-28T12:00:00.000Z' })
   @IsNotEmpty()
   @IsDateString()
-  date: Date;
+  date: string;
 
   @ApiProperty({
     type: String,

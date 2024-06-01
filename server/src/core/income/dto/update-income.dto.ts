@@ -27,7 +27,7 @@ export class UpdateIncomeDto {
   })
   @IsNotEmpty()
   @IsDateString()
-  date?: Date;
+  date?: string;
 
   @ApiProperty({
     type: String,
