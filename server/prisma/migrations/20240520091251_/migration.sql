@@ -25,8 +25,9 @@ CREATE TABLE "User" (
 CREATE TABLE "Budget" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
     "name" TEXT NOT NULL,
-    "currency" "Currency" NOT NULL,
     "goal" DOUBLE PRECISION NOT NULL,
+    "demo" BOOLEAN,
+    "currency" "Currency" NOT NULL,
 
     CONSTRAINT "Budget_pkey" PRIMARY KEY ("id")
 );
@@ -34,7 +35,7 @@ CREATE TABLE "Budget" (
 -- CreateTable
 CREATE TABLE "Expense" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
-    "amount" DOUBLE PRECISION NOT NULL,
+    "amount" INTEGER NOT NULL,
     "category" "ExpenseCategory" NOT NULL,
     "date" TIMESTAMP(3) NOT NULL,
     "description" TEXT,
@@ -47,7 +48,7 @@ CREATE TABLE "Expense" (
 -- CreateTable
 CREATE TABLE "Income" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
-    "amount" DOUBLE PRECISION NOT NULL,
+    "amount" INTEGER NOT NULL,
     "category" "IncomeCategory" NOT NULL,
     "date" TIMESTAMP(3) NOT NULL,
     "description" TEXT,

@@ -25,6 +25,7 @@ model Budget {
   id       String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name     String
   goal     Float
+  demo     Boolean?
   currency Currency
   Users    User[]
   Expenses Expense[]
@@ -33,7 +34,7 @@ model Budget {
 
 model Expense {
   id          String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  amount      Float
+  amount      Int
   category    ExpenseCategory
   date        DateTime
   description String?
@@ -45,7 +46,7 @@ model Expense {
 
 model Income {
   id          String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  amount      Float
+  amount      Int
   category    IncomeCategory
   date        DateTime
   description String?
