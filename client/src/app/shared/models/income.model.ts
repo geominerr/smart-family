@@ -2,8 +2,8 @@ export type TIncomeCategory =
   | 'SALARY'
   | 'FREELANCE'
   | 'INVESTMENTS'
-  | 'BUSINESS_INCOME'
-  | 'RENTAL_INCOME'
+  | 'BUSINESS'
+  | 'RENTAL'
   | 'GIFTS'
   | 'OTHER';
 
