@@ -4,14 +4,18 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { Subscription, filter } from 'rxjs';
-
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+
+import { Subscription, filter } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 import { selectStatusState } from '@app/store/status/status.selector';
+
 import { MessageMapperService } from '@app/shared/services/message-mapper.service';
 import { TActions } from '@app/shared/models/actions.model';
+
+type BarType = 'success' | 'error';
 
 @Component({
   standalone: true,
@@ -24,17 +28,24 @@ import { TActions } from '@app/shared/models/actions.model';
 export class SnackbarComponent implements OnInit, OnDestroy {
   private subcritption: Subscription | undefined;
 
-  private panelClasses = {
+  private duration: number = 2000;
+
+  private panelClasses: Record<BarType, string> = {
     success: 'snackbar--success',
     error: 'snackbar--error',
   };
 
-  private duration: number = 2000;
+  private transformClass = 'snackbar--transform';
+
+  private breakpoints = {
+    tablet: '(max-width: 960px)',
+  };
 
   constructor(
     private snackBar: MatSnackBar,
     private store: Store,
-    private messageService: MessageMapperService
+    private messageService: MessageMapperService,
+    private breakpointObserver: BreakpointObserver
   ) {}
 
   ngOnInit(): void {
@@ -59,9 +70,10 @@ export class SnackbarComponent implements OnInit, OnDestroy {
   private openSuccessBar(action: TActions | undefined): void {
     if (action) {
       const message = this.messageService.getSuccessMessage(action);
+
       this.snackBar.open(message, 'close', {
         duration: this.duration,
-        panelClass: this.panelClasses.success,
+        panelClass: this.getCssStyles('success'),
       });
     }
   }
@@ -69,10 +81,28 @@ export class SnackbarComponent implements OnInit, OnDestroy {
   private openErrorBar(action: TActions | undefined, error: unknown): void {
     if (action) {
       const message = this.messageService.getErrorMessage(action, error);
+
       this.snackBar.open(message, 'close', {
         duration: this.duration,
-        panelClass: this.panelClasses.error,
+        panelClass: this.getCssStyles('error'),
       });
     }
+  }
+
+  private getCssStyles(type: BarType): string[] {
+    const styles = [this.panelClasses[type]];
+    const transformClass = this.getTransformCssClass();
+
+    if (transformClass) {
+      styles.push(transformClass);
+    }
+
+    return styles;
+  }
+
+  private getTransformCssClass(): string | null {
+    return this.breakpointObserver.isMatched(this.breakpoints.tablet)
+      ? null
+      : this.transformClass;
   }
 }
