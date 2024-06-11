@@ -23,8 +23,8 @@ export class CategoryColorMapperService {
     SALARY: 'rgb(153, 255, 153)',
     FREELANCE: 'rgb(255, 187, 153)',
     INVESTMENTS: 'rgb(255, 153, 153)',
-    BUSINESS_INCOME: 'rgb(255, 255, 153)',
-    RENTAL_INCOME: 'rgb(153, 255, 255)',
+    BUSINESS: 'rgb(255, 255, 153)',
+    RENTAL: 'rgb(153, 255, 255)',
     OTHER: 'rgb(204, 204, 204)',
   };
 

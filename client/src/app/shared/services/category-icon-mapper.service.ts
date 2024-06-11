@@ -25,8 +25,8 @@ export class CategoryIconMapperService {
     SALARY: 'attach_money',
     FREELANCE: 'work',
     INVESTMENTS: 'trending_up',
-    BUSINESS_INCOME: 'business',
-    RENTAL_INCOME: 'home_work',
+    BUSINESS: 'business',
+    RENTAL: 'home_work',
     OTHER: 'alt_route',
   };
 

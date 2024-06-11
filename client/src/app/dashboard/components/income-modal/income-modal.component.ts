@@ -58,10 +58,10 @@ export class IncomeModalComponent implements OnInit {
   categories: TIncomeCategory[] = [
     'SALARY',
     'FREELANCE',
-    'BUSINESS_INCOME',
+    'BUSINESS',
     'GIFTS',
     'INVESTMENTS',
-    'RENTAL_INCOME',
+    'RENTAL',
     'OTHER',
   ];
 
