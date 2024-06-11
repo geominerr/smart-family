@@ -26,7 +26,7 @@ $ cp .env.example .env
 $ docker-compose up
 ```
 
-After starting the app on port (4000 as default) you can open in your browser OpenAPI documentation by typing doc http://localhost:4000/api . For more information about OpenAPI/Swagger please visit [Swagger](https://swagger.io/).
+After starting the app on port (4000 as default) you can open in your browser OpenAPI documentation by typing doc http://localhost:4000/doc . For more information about OpenAPI/Swagger please visit [Swagger](https://swagger.io/).
 
 ## Prisma migrate
 
@@ -51,12 +51,12 @@ The build artifacts will be stored in the `dist/` directory.
 ## Test
 
 ```bash
-# unit tests
-$ npm run test
+# run test database
+$ npm run docker:e2e:up
 
 # e2e tests
 $ npm run test:e2e
 
-# test coverage
-$ npm run test:cov
+# shut down test database
+$ npm run docker:e2e:down
 ```
