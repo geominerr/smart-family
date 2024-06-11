@@ -12,4 +12,8 @@
   &.snackbar--error {
     --mdc-snackbar-container-color: rgba(239, 118, 114, 0.9);
   }
+
+  &.snackbar--transform {
+    transform: translateX(140px) !important;
+  }
 }
