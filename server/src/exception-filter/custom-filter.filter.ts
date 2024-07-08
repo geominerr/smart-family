@@ -10,10 +10,9 @@ import { HttpAdapterHost } from '@nestjs/core';
 
 @Catch()
 export class CustomFilter implements ExceptionFilter {
-  constructor(
-    private readonly httpAdapterHost: HttpAdapterHost,
-    private readonly logger: Logger,
-  ) {}
+  private readonly logger = new Logger();
+
+  constructor(private readonly httpAdapterHost: HttpAdapterHost) {}
 
   catch(exception: unknown, host: ArgumentsHost): void {
     const { httpAdapter } = this.httpAdapterHost;
