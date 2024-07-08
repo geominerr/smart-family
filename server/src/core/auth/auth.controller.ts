@@ -138,6 +138,7 @@ export class AuthController {
 
     res.cookie('auth', tokens.accessToken, {
       path: '/',
+      domain: '.smart-family.online',
       httpOnly: true,
       secure: true,
       maxAge: tokens.expireTime,
@@ -147,6 +148,7 @@ export class AuthController {
     if (tokens?.refreshToken && tokens?.refreshExpireTime) {
       res.cookie('refresh', tokens.refreshToken, {
         path: '/',
+        domain: '.smart-family.online',
         httpOnly: true,
         secure: true,
         maxAge: tokens.refreshExpireTime,
@@ -155,6 +157,7 @@ export class AuthController {
 
       res.cookie('_auth-status', userId, {
         path: '/',
+        domain: '.smart-family.online',
         secure: true,
         maxAge: tokens.refreshExpireTime,
         sameSite: 'none',
