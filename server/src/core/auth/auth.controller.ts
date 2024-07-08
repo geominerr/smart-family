@@ -68,7 +68,7 @@ export class AuthController {
   @ApiResponse({ status: 204, description: 'Remove cookies' })
   async logout(@Req() req, @Res() res: Response) {
     ['_auth-status', 'auth', 'refresh'].forEach((cookie) =>
-      res.clearCookie(cookie),
+      res.clearCookie(cookie, { domain: '.smart-family.online' }),
     );
 
     res.status(204).send();
@@ -99,8 +99,10 @@ export class AuthController {
     );
 
     res.cookie('auth', accessToken, {
+      path: '/',
+      domain: '.smart-family.online',
       httpOnly: true,
-      sameSite: 'strict',
+      sameSite: 'none',
       maxAge: expireTime,
     });
 
