@@ -134,10 +134,9 @@ export class AuthController {
   }
 
   private setCookies(res: Response, authData: AuthData) {
-    const newRes = { ...res };
     const { userId, tokens } = authData;
 
-    newRes.cookie('auth', tokens.accessToken, {
+    res.cookie('auth', tokens.accessToken, {
       path: '/',
       httpOnly: true,
       secure: true,
@@ -146,7 +145,7 @@ export class AuthController {
     });
 
     if (tokens?.refreshToken && tokens?.refreshExpireTime) {
-      newRes.cookie('refresh', tokens.refreshToken, {
+      res.cookie('refresh', tokens.refreshToken, {
         path: '/',
         httpOnly: true,
         secure: true,
@@ -154,7 +153,7 @@ export class AuthController {
         sameSite: 'none',
       });
 
-      newRes.cookie('_auth-status', userId, {
+      res.cookie('_auth-status', userId, {
         path: '/',
         secure: true,
         maxAge: tokens.refreshExpireTime,
@@ -162,6 +161,6 @@ export class AuthController {
       });
     }
 
-    return newRes;
+    return res;
   }
 }
