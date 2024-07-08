@@ -137,20 +137,23 @@ export class AuthController {
     const { userId, tokens } = authData;
 
     res.cookie('auth', tokens.accessToken, {
+      path: '/',
       httpOnly: true,
-      sameSite: 'strict',
+      secure: true,
       maxAge: tokens.expireTime,
     });
 
     if (tokens?.refreshToken && tokens?.refreshExpireTime) {
       res.cookie('refresh', tokens.refreshToken, {
+        path: '/',
         httpOnly: true,
-        sameSite: 'strict',
+        secure: true,
         maxAge: tokens.refreshExpireTime,
       });
 
       res.cookie('_auth-status', userId, {
-        sameSite: 'strict',
+        path: '/',
+        secure: true,
         maxAge: tokens.refreshExpireTime,
       });
     }
