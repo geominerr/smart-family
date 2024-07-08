@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { MatProgressBarHarness } from '@angular/material/progress-bar/testing';
@@ -13,7 +13,7 @@ describe('StatusBarComponent', () => {
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [StatusBarComponent, NoopAnimationsModule],
+      imports: [StatusBarComponent, BrowserAnimationsModule],
     }).compileComponents();
     fixture = TestBed.createComponent(StatusBarComponent);
     component = fixture.componentInstance;

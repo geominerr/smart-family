@@ -4,10 +4,7 @@ import {
   withInterceptorsFromDi,
 } from '@angular/common/http';
 import { ApplicationConfig } from '@angular/core';
-import {
-  provideAnimations,
-  provideNoopAnimations,
-} from '@angular/platform-browser/animations';
+import { provideAnimations } from '@angular/platform-browser/animations';
 import {
   PreloadAllModules,
   provideRouter,
@@ -29,7 +26,6 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes, withPreloading(PreloadAllModules)),
     provideHttpClient(withInterceptorsFromDi()),
     provideAnimations(),
-    provideNoopAnimations(),
     getProviderStore(),
     getProviderEffects(),
     getProviderDevStore(),
