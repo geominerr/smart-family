@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  apiUrl: 'api/url',
-  urlGoogleAuth: 'api/auth/google',
+  apiUrl: 'https://api.smart-family.online',
+  urlGoogleAuth: 'https://api.smart-family.online/auth/google',
 };
