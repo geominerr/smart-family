@@ -102,6 +102,7 @@ export class AuthController {
       path: '/',
       domain: '.smart-family.online',
       httpOnly: true,
+      secure: true,
       sameSite: 'none',
       maxAge: expireTime,
     });
