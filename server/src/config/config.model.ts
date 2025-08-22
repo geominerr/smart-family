@@ -1,6 +1,7 @@
 export interface IAppConfig {
   PORT: number;
   CLIENT_URL: string;
+  COOKIE_DOMAINS: string;
 }
 
 export interface IJwtConfig {

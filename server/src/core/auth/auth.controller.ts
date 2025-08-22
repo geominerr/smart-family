@@ -26,13 +26,14 @@ import { descriptionHeaderCookies } from './entities/headers.description';
 @Controller('auth')
 export class AuthController {
   private readonly clientUrl: string;
+  private readonly cookieDomains: string;
 
   constructor(
     private readonly authService: AuthService,
     private readonly configService: ConfigService,
   ) {
-    this.clientUrl =
-      this.configService.get('GOOGLE_CONFIG').REDIRECT_CLIENT_URL;
+    this.clientUrl = this.configService.get('GOOGLE_CONFIG').REDIRECT_CLIENT_URL;
+    this.cookieDomains = this.configService.get('APP_CONFIG').COOKIE_DOMAINS;
   }
 
   @SkipAuth()
@@ -68,7 +69,7 @@ export class AuthController {
   @ApiResponse({ status: 204, description: 'Remove cookies' })
   async logout(@Req() req, @Res() res: Response) {
     ['_auth-status', 'auth', 'refresh'].forEach((cookie) =>
-      res.clearCookie(cookie, { domain: '.smart-family.online' }),
+      res.clearCookie(cookie, { ...this.getCookieDomains() }),
     );
 
     res.status(204).send();
@@ -100,7 +101,7 @@ export class AuthController {
 
     res.cookie('auth', accessToken, {
       path: '/',
-      domain: '.smart-family.online',
+      ...this.getCookieDomains(),
       httpOnly: true,
       secure: true,
       sameSite: 'none',
@@ -138,10 +139,10 @@ export class AuthController {
 
   private setCookies(res: Response, authData: AuthData) {
     const { userId, tokens } = authData;
-
+    const domains = this.getCookieDomains();
     res.cookie('auth', tokens.accessToken, {
       path: '/',
-      domain: '.smart-family.online',
+      ...domains,
       httpOnly: true,
       secure: true,
       maxAge: tokens.expireTime,
@@ -151,7 +152,7 @@ export class AuthController {
     if (tokens?.refreshToken && tokens?.refreshExpireTime) {
       res.cookie('refresh', tokens.refreshToken, {
         path: '/',
-        domain: '.smart-family.online',
+        ...domains,
         httpOnly: true,
         secure: true,
         maxAge: tokens.refreshExpireTime,
@@ -160,7 +161,7 @@ export class AuthController {
 
       res.cookie('_auth-status', userId, {
         path: '/',
-        domain: '.smart-family.online',
+        ...domains,
         secure: true,
         maxAge: tokens.refreshExpireTime,
         sameSite: 'none',
@@ -168,5 +169,11 @@ export class AuthController {
     }
 
     return res;
+  }
+
+  private getCookieDomains(): { domain?: string } {
+    const { cookieDomains } = this;
+
+    return cookieDomains ? { domain: cookieDomains } : {}
   }
 }

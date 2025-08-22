@@ -2,6 +2,7 @@ export const appConfig = () => ({
   APP_CONFIG: {
     PORT: parseInt(process.env.PORT) || 3000,
     CLIENT_URL: process.env.CLIENT_URL,
+    COOKIE_DOMAINS: process.env.COOKIE_DOMAINS,
   },
 });
 
