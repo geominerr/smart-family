@@ -10,10 +10,10 @@
 
 ```bash
 # SSH
-$ git clone git@github.com:geominerr/smart-family.git
+$ git clone git@github.com:m-voloshyn/smart-family.git
 
 # HTTPS
-$ git clone https://github.com/geominerr/smart-family.git
+$ git clone https://github.com/m-voloshyn/smart-family.git
 
 ```
 
